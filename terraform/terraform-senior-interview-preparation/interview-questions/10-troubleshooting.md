@@ -217,7 +217,7 @@ Fix the immediate failure and redesign the apply to avoid it going forward.
 ### Strong Senior-Level Answer
 **Initial assessment:** IAM (and several other AWS services) enforce relatively low API rate limits compared to Terraform's default parallelism (10 concurrent operations) — 200 near-simultaneous `CreateRole`/`PutRolePolicy` calls at default parallelism is a plausible way to exceed IAM's specific rate limits, especially if this account has done a lot of other recent IAM activity contributing to the same rate-limit bucket.
 
-**Technical reasoning:** state was written incrementally for every role that succeeded before the throttling errors began (see [`terraform-internals.md` §10](../docs/terraform-internals.md#10-state-serial-and-lineage-and-reconciliation-during-apply)), so this is a partial-apply situation, not a total failure — a straightforward `terraform plan` will show exactly which roles are still pending.
+**Technical reasoning:** state was written incrementally for every role that succeeded before the throttling errors began (see [`terraform-internals.md` §10](../docs/terraform-internals.md#10-state-serial-lineage-and-reconciliation-during-apply)), so this is a partial-apply situation, not a total failure — a straightforward `terraform plan` will show exactly which roles are still pending.
 
 **Investigation process:** confirm via the plan (not assumption) exactly which roles succeeded and which remain, and check whether the AWS provider's own built-in retry/backoff for throttling is already engaged (many AWS SDK-based providers have some automatic retry behavior for throttling responses, but it can still be exhausted under sustained heavy load) versus this being a case needing external mitigation.
 

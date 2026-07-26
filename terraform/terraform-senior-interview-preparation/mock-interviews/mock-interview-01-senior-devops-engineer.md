@@ -133,7 +133,7 @@ Use the [Scoring Rubric](#scoring-rubric-reference) at the end for every questio
 
 **Model answer:** *"First I confirm it's genuinely unmanaged — check state list, don't assume. Then I use an import block, ideally with `-generate-config-out` if I don't already have matching configuration, so Terraform drafts the config for me instead of me guessing at its current settings. After importing, I run plan and expect zero changes — any diff there means either my drafted config is wrong or there's drift I need to understand before calling this done."*
 
-**Full reference:** [Question 92](../interview-questions/10-troubleshooting.md#question-92-the-import-that-needed-three-tries-to-get-the-ide-right)
+**Full reference:** [Question 92](../interview-questions/10-troubleshooting.md#question-92-the-import-that-needed-three-tries-to-get-the-id-right)
 
 ---
 

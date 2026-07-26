@@ -752,7 +752,7 @@ cd ../application     && terraform plan   # expect 0 diff, no cache resources pr
 "Just copy the resource blocks into a new module and re-run apply there."
 
 ### Why the Weak Answer Fails
-Applying a new configuration for resources with no corresponding state entry in the new location means Terraform will plan to *create* them fresh — this is the destroy/recreate mistake from [Question 1](#question-1-the-subnet-that-shifted) and [Question 9](01-terraform-core.md#question-9-converting-a-legacy-count-fleet-to-for_each-without-downtime) applied to a state-splitting context; without `state mv`/`moved` blocks, the "new" configuration has no relationship to the existing real infrastructure as far as Terraform is concerned.
+Applying a new configuration for resources with no corresponding state entry in the new location means Terraform will plan to *create* them fresh — this is the destroy/recreate mistake from [Question 1](01-terraform-core.md#question-1-the-subnet-that-shifted) and [Question 9](01-terraform-core.md#question-9-converting-a-legacy-count-fleet-to-for_each-without-downtime) applied to a state-splitting context; without `state mv`/`moved` blocks, the "new" configuration has no relationship to the existing real infrastructure as far as Terraform is concerned.
 
 ### Follow-Up Questions
 1. How would you handle the case where the cache and application resources have a genuine circular reference (each needs something from the other), not just a one-directional dependency?

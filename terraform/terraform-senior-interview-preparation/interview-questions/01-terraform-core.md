@@ -505,7 +505,7 @@ terraform apply resume.tfplan
 ```
 
 ### Under-the-Hood Explanation
-State is written incrementally, resource-by-resource, as each `ApplyResourceChange` RPC call returns successfully (see [`terraform-internals.md` §10](../docs/terraform-internals.md#10-state-serial-and-lineage-and-reconciliation-during-apply)) — this is precisely why a killed process still leaves an accurate (if incomplete) picture of what succeeded, rather than losing track entirely. The scheduled next run, if allowed to fire without investigation, would itself just run a fresh plan against this same state — the risk isn't that Terraform behaves incorrectly, it's that firing it blind (without a human reviewing the resume plan) removes the opportunity to catch a genuine edge-case inconsistency before it's applied.
+State is written incrementally, resource-by-resource, as each `ApplyResourceChange` RPC call returns successfully (see [`terraform-internals.md` §10](../docs/terraform-internals.md#10-state-serial-lineage-and-reconciliation-during-apply)) — this is precisely why a killed process still leaves an accurate (if incomplete) picture of what succeeded, rather than losing track entirely. The scheduled next run, if allowed to fire without investigation, would itself just run a fresh plan against this same state — the risk isn't that Terraform behaves incorrectly, it's that firing it blind (without a human reviewing the resume plan) removes the opportunity to catch a genuine edge-case inconsistency before it's applied.
 
 ### Common Weak Answer
 "It's fine, just let the next scheduled run retry — Terraform will pick up where it left off automatically."

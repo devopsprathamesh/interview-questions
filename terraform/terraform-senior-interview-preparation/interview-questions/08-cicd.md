@@ -48,7 +48,7 @@ apply:
 ```
 
 ### Under-the-Hood Explanation
-`terraform apply <saved-plan-file>` re-reads the current backend state before proceeding and compares its serial/lineage against what's embedded in the plan file, refusing to proceed if they've diverged (see [`terraform-internals.md` §10](../docs/terraform-internals.md#10-state-serial-and-lineage-and-reconciliation-during-apply)) — this staleness check exists specifically to prevent exactly the class of "applied something different from what was reviewed" gap that a fresh-plan-then-auto-approve pipeline design reintroduces by construction, since it never gives Terraform the opportunity to compare against a fixed, previously-reviewed baseline at all.
+`terraform apply <saved-plan-file>` re-reads the current backend state before proceeding and compares its serial/lineage against what's embedded in the plan file, refusing to proceed if they've diverged (see [`terraform-internals.md` §10](../docs/terraform-internals.md#10-state-serial-lineage-and-reconciliation-during-apply)) — this staleness check exists specifically to prevent exactly the class of "applied something different from what was reviewed" gap that a fresh-plan-then-auto-approve pipeline design reintroduces by construction, since it never gives Terraform the opportunity to compare against a fixed, previously-reviewed baseline at all.
 
 ### Common Weak Answer
 "It's fine, the two plans almost always match anyway."

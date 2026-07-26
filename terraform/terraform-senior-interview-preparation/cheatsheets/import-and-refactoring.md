@@ -1,7 +1,7 @@
 # Cheat Sheet: Import and Refactoring
 
 ## Importing existing infrastructure
-1. Check the provider registry docs for the resource type's exact import ID format — never guess (see [Question 92](../interview-questions/10-troubleshooting.md#question-92-the-import-that-needed-three-tries-to-get-the-ide-right)).
+1. Check the provider registry docs for the resource type's exact import ID format — never guess (see [Question 92](../interview-questions/10-troubleshooting.md#question-92-the-import-that-needed-three-tries-to-get-the-id-right)).
 2. Write an `import` block (not the legacy imperative command).
 3. Run `terraform plan -generate-config-out=generated.tf` if you don't already have matching configuration.
 4. Review the generated configuration carefully against the resource's real settings.
