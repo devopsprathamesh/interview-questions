@@ -1,0 +1,5 @@
+aws_region         = "us-east-1"
+environment        = "production"
+cidr_block         = "10.50.0.0/16"
+availability_zones = ["us-east-1a", "us-east-1b", "us-east-1c"]
+nat_strategy       = "per_az" # production: HA over cost - see modules/vpc for the trade-off table

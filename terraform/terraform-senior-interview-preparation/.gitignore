@@ -1,0 +1,49 @@
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+crash.log
+crash.*.log
+*.tfvars
+*.tfvars.json
+!**/terraform.tfvars.example
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+*.tfplan
+*.tfplan.json
+plan.out
+plan.cache
+
+# Dependency lock files are intentionally NOT ignored (should be committed)
+# .terraform.lock.hcl is tracked on purpose
+
+# Credentials and secrets
+*.pem
+*.key
+*.pfx
+.env
+.env.*
+!.env.example
+credentials.json
+kubeconfig
+kubeconfig.yaml
+*.kubeconfig
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Test / tooling output
+.pytest_cache/
+coverage/
+*.tfsec-report.json
+checkov-report.*
+tflint-report.*

@@ -1,0 +1,20 @@
+# PHASE 3: restructuring from root-level resources into a child module,
+# again with ZERO recreation, using a moved block that redirects into the
+# module's address space.
+#
+# Copy this file to main.tf and apply it THIRD, after Phase 2 is applied.
+
+moved {
+  from = aws_ssm_parameter.environment_marker
+  to   = module.marker.aws_ssm_parameter.environment_marker
+}
+
+module "marker" {
+  source = "./modules/marker"
+
+  environments = var.environments
+}
+
+output "parameter_names" {
+  value = module.marker.parameter_names
+}

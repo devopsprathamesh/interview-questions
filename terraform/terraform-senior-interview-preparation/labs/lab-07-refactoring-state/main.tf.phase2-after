@@ -1,0 +1,34 @@
+# PHASE 2: the refactored, for_each-based configuration, WITH moved blocks.
+# Copy this file to main.tf and apply it SECOND, after Phase 1 is already applied.
+#
+# The moved blocks tell Terraform "aws_ssm_parameter.environment_marker[N] is
+# now aws_ssm_parameter.environment_marker[\"env-name\"]" for each of the three
+# original indices - proving a full plan afterward shows ZERO changes, not a
+# destroy-and-recreate of all three parameters.
+
+moved {
+  from = aws_ssm_parameter.environment_marker[0]
+  to   = aws_ssm_parameter.environment_marker["dev"]
+}
+
+moved {
+  from = aws_ssm_parameter.environment_marker[1]
+  to   = aws_ssm_parameter.environment_marker["staging"]
+}
+
+moved {
+  from = aws_ssm_parameter.environment_marker[2]
+  to   = aws_ssm_parameter.environment_marker["production"]
+}
+
+resource "aws_ssm_parameter" "environment_marker" {
+  for_each = toset(var.environments)
+
+  name  = "/lab-07/${each.key}/marker"
+  type  = "String"
+  value = "managed-by-terraform-${each.key}"
+}
+
+output "parameter_names" {
+  value = { for env, param in aws_ssm_parameter.environment_marker : env => param.name }
+}

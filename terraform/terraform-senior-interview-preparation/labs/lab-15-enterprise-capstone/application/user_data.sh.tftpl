@@ -1,0 +1,15 @@
+#!/bin/bash
+# Minimal, illustrative bootstrap script for the capstone application tier.
+# Fetches its database credential from Secrets Manager at boot time via the
+# instance's own IAM role (module.app_role) - never a hardcoded credential in
+# this template, and never a value baked into the AMI or launch template.
+set -euo pipefail
+
+DB_SECRET_ARN="${db_secret_arn}"
+DB_ENDPOINT="${db_endpoint}"
+
+# In a real application, the app process itself would call the Secrets
+# Manager API at startup (or via a sidecar) using this same IAM role -
+# this script simply demonstrates that the ARN/endpoint are available and
+# correctly wired, without actually launching a real application.
+echo "Application would connect to ${DB_ENDPOINT} using credential ${DB_SECRET_ARN}" > /var/log/capstone-app-bootstrap.log

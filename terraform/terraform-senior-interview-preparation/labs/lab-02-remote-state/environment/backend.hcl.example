@@ -1,0 +1,9 @@
+# Copy to backend.hcl (gitignored) and fill in with the bootstrap module's outputs:
+#   terraform -chdir=../bootstrap output -raw state_bucket_name
+#   terraform -chdir=../bootstrap output -raw lock_table_name
+#
+# Usage: terraform init -backend-config=backend.hcl
+
+bucket         = "my-org-tf-state-CHANGE-ME-1234"
+region         = "us-east-1"
+dynamodb_table = "terraform-state-lock"

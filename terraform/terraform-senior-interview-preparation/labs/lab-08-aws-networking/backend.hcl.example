@@ -1,0 +1,7 @@
+# Copy to backend.hcl and fill in values from Lab 2's bootstrap outputs.
+# terraform init -backend-config=backend.hcl
+bucket         = "REPLACE-WITH-LAB2-BUCKET-NAME"
+key            = "lab-08-aws-networking/terraform.tfstate"
+region         = "us-east-1"
+dynamodb_table = "REPLACE-WITH-LAB2-LOCK-TABLE-NAME"
+encrypt        = true

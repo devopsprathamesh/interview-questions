@@ -1,0 +1,5 @@
+bucket         = "REPLACE-WITH-LAB2-BUCKET-NAME"
+key            = "environments/dev/terraform.tfstate"
+region         = "us-east-1"
+dynamodb_table = "REPLACE-WITH-LAB2-LOCK-TABLE-NAME"
+encrypt        = true

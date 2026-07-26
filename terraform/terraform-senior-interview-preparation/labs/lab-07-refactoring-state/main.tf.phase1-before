@@ -1,0 +1,19 @@
+# PHASE 1: the fragile, count-based starting point.
+# Copy this file to main.tf and apply it FIRST.
+#
+# This mirrors interview-questions/01-terraform-core.md Question 1: three
+# environment parameters indexed purely by position. Removing "dev" from the
+# middle of var.environments later would shift every subsequent index and
+# force a destroy/recreate cascade - which is exactly the bug Phase 2 fixes.
+
+resource "aws_ssm_parameter" "environment_marker" {
+  count = length(var.environments)
+
+  name  = "/lab-07/${var.environments[count.index]}/marker"
+  type  = "String"
+  value = "managed-by-terraform-${var.environments[count.index]}"
+}
+
+output "parameter_names" {
+  value = aws_ssm_parameter.environment_marker[*].name
+}

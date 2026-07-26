@@ -1,0 +1,7 @@
+# Copy this file to terraform.tfvars and adjust values as needed.
+# terraform.tfvars is gitignored - never commit it if it contains real values.
+
+aws_region        = "us-east-1"
+project_name      = "tf-core-lab"
+environment       = "sandbox"
+enable_versioning = true

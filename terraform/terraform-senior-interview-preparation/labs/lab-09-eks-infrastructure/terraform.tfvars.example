@@ -1,0 +1,10 @@
+aws_region          = "us-east-1"
+name                = "tf-eks-lab"
+cidr_block           = "10.43.0.0/16"
+availability_zones   = ["us-east-1a", "us-east-1b"]
+kubernetes_version   = "1.29"
+node_instance_types  = ["t3.medium"]
+node_desired_size    = 2
+
+# Set this to your own public IP as a /32 - find it with: curl -s ifconfig.me
+lab_operator_cidr = "REPLACE-WITH-YOUR-IP/32"
