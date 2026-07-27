@@ -1,0 +1,36 @@
+# Ansible
+*.retry
+.vault_pass
+vault_pass.txt
+vault-password.txt
+*.vault_pass
+inventory/host_vars/*/vault.yml
+!**/vault.yml.example
+*.pyc
+__pycache__/
+
+# Molecule
+.molecule/
+.cache/
+
+# Secrets and credentials
+*.pem
+*.key
+.env
+.env.*
+!.env.example
+credentials.json
+*.tfvars
+aws_credentials
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Test / tooling output
+.pytest_cache/
+coverage/
+ansible-lint-report.*
