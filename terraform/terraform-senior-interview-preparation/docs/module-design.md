@@ -6,7 +6,7 @@ Modules are Terraform's unit of reuse and, more importantly at scale, Terraform'
 
 The **root module** is whatever directory you run `terraform init`/`plan`/`apply` in — it defines the state boundary (one root module = one state, per backend configuration). **Child modules** are reusable building blocks called via `module` blocks; they have no state of their own — their resources live in the *calling* root module's state, namespaced under `module.<name>`.
 
-**Why this distinction matters:** engineers sometimes assume "breaking a config into modules" reduces blast radius. It doesn't, by itself — module boundaries are a *code organization* boundary, not a *state* boundary. Blast radius reduction requires separate **root modules with separate state**, not just separate child modules called from the same root (see [`state-management.md`](state-management.md#state-splitting) and the layered architecture in [`terraform-architecture.md`](terraform-architecture.md#enterprise-architecture)).
+**Why this distinction matters:** engineers sometimes assume "breaking a config into modules" reduces blast radius. It doesn't, by itself — module boundaries are a *code organization* boundary, not a *state* boundary. Blast radius reduction requires separate **root modules with separate state**, not just separate child modules called from the same root (see [`state-management.md`](state-management.md#12-state-splitting-for-blast-radius-reduction-the-5000-resource-problem) and the layered architecture in [`terraform-architecture.md`](terraform-architecture.md#part-b--enterprise-architecture)).
 
 ## 2. Designing the module interface (inputs/outputs as an API contract)
 
@@ -71,7 +71,7 @@ module "vpc" {
 
 - **Public registry** (registry.terraform.io): fine for genuinely generic community modules; not appropriate as the home for your organization's internal, opinionated modules.
 - **Private module registry** (Terraform Cloud/Enterprise private registry, or a Git-based private registry via the standard `git::` / SSH source syntax with tags as versions): the correct home for internal platform modules — gives you version listing, usage/consumer visibility (in TFC/TFE), and a stable, namespaced source address (`app.terraform.io/my-org/vpc/aws`) instead of every consumer hand-rolling a `git::ssh://...?ref=v4.2.0` source string.
-- **Air-gapped/offline environments**: private registries or a Git-based source with an internal mirror are required when public registry access is blocked — see [`terraform-architecture.md`](terraform-architecture.md#air-gapped-environments) for the provider-side equivalent (provider mirrors).
+- **Air-gapped/offline environments**: private registries or a Git-based source with an internal mirror are required when public registry access is blocked — see [`terraform-architecture.md`](terraform-architecture.md#6-provider-installation-mirrors-and-air-gapped-environments) for the provider-side equivalent (provider mirrors).
 
 ## 7. Module testing
 

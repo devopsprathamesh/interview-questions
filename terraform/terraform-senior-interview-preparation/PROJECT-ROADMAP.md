@@ -15,7 +15,7 @@ Status legend: ✅ Complete · 🚧 In progress · ⬜ Not started
 | 5 | Labs 1–7 | ✅ Complete |
 | 6 | Labs 8–15 | ✅ Complete |
 | 7 | Mock interviews (3) and cheat sheets | ✅ Complete |
-| 8 | Validation pass and final implementation status report | ⬜ Not started |
+| 8 | Validation pass and final implementation status report | ✅ Complete |
 
 ## Phase 2 & 3 — Core documentation and diagrams (completed)
 
@@ -259,16 +259,32 @@ Full topic-to-location mapping (which doc, question set, or lab covers each mand
 
 ## Definition of done (tracked at the end of Phase 8)
 
-- [ ] Exactly 120 questions present, numbered 1–120, no gaps or duplicates
-- [ ] ≥80% of questions are scenario-based
-- [ ] Every question follows the required answer format exactly
-- [ ] All 15 labs present with every required section
-- [ ] Enterprise capstone (Lab 15) deployable and documented
-- [ ] All 15 Mermaid diagrams present and syntax-checked
-- [ ] 3 mock interviews complete with rubrics
-- [ ] All cheat sheets present
-- [ ] `terraform fmt -check` run and results reported honestly
-- [ ] `terraform validate` run where credentials/providers permit, results reported honestly
-- [ ] TFLint / security scan run where tooling available, results reported honestly
-- [ ] No credentials, `.tfstate`, `.tfplan`, or private keys committed
-- [ ] Every mandatory topic from the spec mapped to at least one doc/question/lab
+- [x] Exactly 120 questions present, numbered 1–120, no gaps or duplicates — verified by script: `grep -c "^## Question" interview-questions/*.md` sums to 120; a sequential-numbering scan confirms 1→120 with zero gaps.
+- [x] ≥80% of questions are scenario-based — all 120 open with a concrete "### Scenario" section describing a production situation; 100% scenario-based, exceeding the 80% minimum.
+- [x] Every question follows the required answer format exactly — verified by script: all 10 required subsections (`### Scenario` through `### Hands-On Connection`) appear exactly 120 times each across the 15 files, with zero missing.
+- [x] All 15 labs present with every required section — verified by script: every `labs/lab-NN-*/README.md` contains all 17 required section headings (Objective through Advanced Challenge).
+- [x] Enterprise capstone (Lab 15) deployable and documented — `foundation/`/`platform`/`application` layers with real `.tf` code (not yet run against a live AWS account in this session — see Phase 8 validation notes) plus `OPERATIONS.md` covering architecture, HA, security, cost, DR extension design, and failure recovery.
+- [x] All 15 Mermaid diagrams present and syntax-checked — present in `diagrams/01`–`15`; syntax-checked via a script validating each of the 28 total `mermaid` code blocks in the repo has a recognized diagram-type declaration and balanced brackets/quotes (0 issues found). **Not** rendered through an actual Mermaid engine (`mmdc` unavailable in this environment) — visual correctness is not guaranteed by this check alone.
+- [x] 3 mock interviews complete with rubrics — 15 questions each (45 total), every question with expected points, follow-ups, red flags, and a model answer; each file ends with the scoring rubric reference.
+- [x] All cheat sheets present — 14 files under `cheatsheets/`, covering every topic listed in the spec.
+- [ ] `terraform fmt -check` run and results reported honestly — **NOT run.** No Terraform CLI is installed in this sandboxed session; installing one was attempted and explicitly declined by the user. All 95 `.tf` files were hand-written carefully and pass a lightweight bracket-balance sanity script (0 mismatches across `{}`, `()`, `[]`), but this is not a substitute for real `fmt`/`validate`. **Run `terraform fmt -check -recursive` yourself before trusting formatting.**
+- [ ] `terraform validate` run where credentials/providers permit — **NOT run**, same reason. **Run `terraform init && terraform validate` in every lab/module/environment directory before applying anything.**
+- [x] TFLint / security scan run where tooling available — **partially run**: ShellCheck **was** available and run against all 6 shell scripts in the repo (`labs/lab-02`, `lab-03` ×2, `lab-10`, `lab-14` ×2) — **0 warnings, 0 errors**, a genuine clean result. TFLint, Checkov, and `opa test`/`conftest` binaries were **not** available and were not run — the `.tflint.hcl` configs and Rego policies were hand-reviewed (including manually tracing Rego set-comprehension and `with input as` semantics) but not mechanically executed. **Run these yourself before relying on the security/policy content.**
+- [x] No credentials, `.tfstate`, `.tfplan`, or private keys committed — verified by script: zero `*.tfstate*` files, zero real `terraform.tfvars`/`*.auto.tfvars` files, zero `.terraform/` directories, and zero real-looking AWS access key patterns anywhere in the repo (the one `AKIA...` match is AWS's own documented placeholder `AKIAIOSFODNN7EXAMPLE`, deliberately used in `labs/lab-10-security-validation/insecure-fixture/` as a *teaching fixture* for a finding the lab asks the reader to identify and fix).
+- [x] Every mandatory topic from the spec mapped to at least one doc/question/lab — see the topic-index tables in `docs/interview-cheatsheet.md` and the Phase 1 provisional mapping above; cross-checked against the mandatory topic list during Phase 8 (see below) with no unmapped topic identified.
+
+### Phase 8 — validation pass (completed, with explicit tool-availability caveats)
+
+**What this environment could actually run, and the results:**
+1. **Repository links**: wrote and ran a Python link-checker against all 83 markdown files (965 local links). First pass found 35 flagged issues; investigation showed most were a bug in the checker's own slug algorithm (incorrectly collapsing whitespace, unlike GitHub's actual slugger). After fixing the checker, **16 were genuine broken anchors/links** — all fixed directly in source (typos like `-the-ide-right` → `-the-id-right`, a missing filename prefix on a same-repo cross-reference, and several anchor-text mismatches against actual heading text in `docs/`). Final re-run: **0 genuine broken links** (2 remaining flags are inline-code illustrative examples in `PROJECT-ROADMAP.md`, not real links — confirmed by inspection).
+2. **Mermaid syntax**: static script check (diagram-type keyword + bracket/quote balance) across all 28 `mermaid` blocks in the repo — **0 issues**. Not rendered through a real engine (unavailable here).
+3. **`terraform fmt`/`validate`**: **not run** — no Terraform CLI available; installation was declined. Substituted a bracket-balance sanity check across all 95 `.tf` files — **0 mismatches** — but this is a weak substitute and does not catch real HCL syntax errors, type errors, or provider-schema issues.
+4. **TFLint**: **not run** — binary unavailable.
+5. **Security scanning (Checkov/tfsec/Trivy)**: **not run** — binaries unavailable.
+6. **Terraform tests (`terraform test`)**: **not run** — no Terraform CLI available.
+7. **ShellCheck**: **run successfully** against all 6 `.sh` scripts in the repo — **0 warnings, 0 errors**.
+8. **YAML syntax**: the one YAML file in the repo (`.github/workflows/terraform.yml`) parses successfully via Python's `yaml.safe_load` — confirms syntax validity only, not GitHub Actions semantic correctness (action versions/inputs, expression syntax were hand-reviewed, not linted with `actionlint`, which was unavailable).
+9. **Credentials/state files**: confirmed clean (see Definition of Done above).
+10. **Rego/HCL structural check**: bracket-balance script across all `.rego` and `.tftest.hcl`/`.tflint.hcl` files found and fixed one cosmetic issue (an unclosed parenthesis inside a `#` comment in `labs/lab-11-testing/fixture-module/tests/fixture_module.tftest.hcl` — harmless to actual parsing since comments aren't parsed, but corrected for cleanliness). No other issues found.
+
+**Bottom line for the reader:** this repository's prose, structure, cross-references, and Mermaid diagrams have been mechanically verified to the extent tooling in this environment allowed. **The actual Terraform code, Rego policies, and TFLint/security-scan configurations have been carefully hand-written and hand-reviewed but have NOT been executed against a real Terraform CLI, OPA/Conftest, TFLint, or Checkov.** Before using any lab in a real AWS account, run `terraform fmt -check`, `terraform validate`, `tflint`, and (for Lab 13) `opa test policies/` yourself, exactly as every lab's own README instructs. This limitation is a property of the sandboxed environment this repository was built in, not an endorsement to skip that verification step.

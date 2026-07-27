@@ -118,7 +118,7 @@ Symptoms: multi-minute (or longer) plans, a single lock serializing all changes 
 
 **Redesign approach:**
 1. **Identify natural boundaries** — by change frequency (networking changes rarely, application config changes daily), by ownership (platform team vs. application teams), by blast-radius tolerance (a shared VPC vs. a single service's resources), and by lifecycle (foundational/long-lived vs. ephemeral/environment-specific).
-2. **Adopt a layered architecture** (see [`terraform-architecture.md`](terraform-architecture.md#enterprise-architecture) and the capstone in [Lab 15](../labs/lab-15-enterprise-capstone/)): bootstrap → foundation (accounts, IAM, core networking) → platform (EKS, shared services) → application, each with its **own state and its own deployment lifecycle**, connected via the parameter-store pattern from §10, not shared state.
+2. **Adopt a layered architecture** (see [`terraform-architecture.md`](terraform-architecture.md#part-b--enterprise-architecture) and the capstone in [Lab 15](../labs/lab-15-enterprise-capstone/)): bootstrap → foundation (accounts, IAM, core networking) → platform (EKS, shared services) → application, each with its **own state and its own deployment lifecycle**, connected via the parameter-store pattern from §10, not shared state.
 3. **Migrate incrementally** using `state mv`/`moved` blocks (§8/§9), validating zero-diff plans at every step — never a big-bang cutover on production state.
 4. **Result:** smaller, faster, independently-lockable states; a broken plan in the application layer can no longer even theoretically touch foundation-layer resources; team ownership maps cleanly to state ownership.
 

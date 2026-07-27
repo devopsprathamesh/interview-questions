@@ -98,7 +98,7 @@ When a plan references an attribute of a resource that doesn't exist yet (e.g., 
 
 Historically (`terraform plan` pre-0.15) refresh was an implicit, separate first phase. Modern Terraform performs refresh **as an integrated part of plan** by default. Flags of note (verify current flag names/defaults against your installed version):
 - `-refresh=false` skips the read-before-plan step — faster, but the plan is only as accurate as the last-known state; risky right before a production apply.
-- `-refresh-only` (a plan/apply mode) updates state to match real infrastructure **without proposing any configuration changes** — the correct tool for "sync state to reality after we confirmed manual changes are intentional and should be adopted as-is," distinct from `import` (which addresses one specific unmanaged resource) — see [`state-management.md`](state-management.md#drift).
+- `-refresh-only` (a plan/apply mode) updates state to match real infrastructure **without proposing any configuration changes** — the correct tool for "sync state to reality after we confirmed manual changes are intentional and should be adopted as-is," distinct from `import` (which addresses one specific unmanaged resource) — see [`state-management.md`](state-management.md#11-manual-infrastructure-changes-and-drift).
 
 ## 8. Resource replacement, taint, and force-new attributes
 
@@ -119,7 +119,7 @@ Terraform Core and providers communicate over gRPC using the Terraform provider 
 
 **Why this matters operationally:**
 - A **provider crash** (segfault, panic) during apply is a plugin process failure, not a Terraform Core bug — it's diagnosed via `TF_LOG=trace` provider logs, and the fix is almost always a provider version bump or an upstream bug report, not a state hack.
-- **Provider schema changes** across versions are the root cause of most "nothing changed in my `.tf` files but the plan shows changes" incidents after `terraform init -upgrade`. The dependency lock file (`.terraform.lock.hcl`) exists specifically to make provider version changes an explicit, reviewed, committed event rather than a silent floating-version surprise — see [`terraform-architecture.md`](terraform-architecture.md#provider-engineering).
+- **Provider schema changes** across versions are the root cause of most "nothing changed in my `.tf` files but the plan shows changes" incidents after `terraform init -upgrade`. The dependency lock file (`.terraform.lock.hcl`) exists specifically to make provider version changes an explicit, reviewed, committed event rather than a silent floating-version surprise — see [`terraform-architecture.md`](terraform-architecture.md#part-a--provider-engineering).
 
 ## 10. State serial, lineage, and reconciliation during apply
 

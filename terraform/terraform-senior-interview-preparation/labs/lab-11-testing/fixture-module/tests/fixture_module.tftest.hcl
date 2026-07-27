@@ -1,7 +1,7 @@
 # Zero-cost native test suite: random/local providers only, no AWS credentials
 # or cloud resources involved at all. Mixes plan-mode (fast, free) and
 # apply-mode (still free here, but demonstrates the real create-then-destroy
-# cycle and guaranteed cleanup behavior described in docs/testing.md §3.
+# cycle and guaranteed cleanup behavior described in docs/testing.md §3).
 
 variables {
   environment = "dev"
