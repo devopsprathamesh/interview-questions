@@ -42,4 +42,4 @@ Policy-as-code enforcement intersects directly with CI/CD (policies should ideal
 
 - [`docs/security.md`](security.md), [`docs/cicd-gitops.md`](cicd-gitops.md)
 - [Lab 13 — Policy as Code (OPA/Gatekeeper)](../labs/lab-13-policy-as-code-opa/)
-- Companion: [Terraform OPA/Conftest policy-as-code guidance](../../../terraform/terraform-senior-interview-preparation/)
+- Companion: [Terraform OPA/Conftest policy-as-code guidance](../../terraform/)

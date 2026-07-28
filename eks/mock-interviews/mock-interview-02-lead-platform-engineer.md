@@ -275,7 +275,7 @@ Use the [Scoring Rubric](#scoring-rubric-reference) at the end for every questio
 
 **Model answer:** *"'Stable for years without testing' describes accumulated risk, not safety — it just means no one had introduced a genuinely breaking change yet. A shared, organization-wide template needs the highest testing rigor precisely because its blast radius spans every consumer simultaneously, unlike a single project's own pipeline where a mistake is contained. I'd build a contract-test suite using a representative sample of real consumer repositories, run automatically before any template change is published, and for something like a new required variable, I'd introduce it as optional-with-a-safe-default first, giving consumers time to adopt it before it's ever required."*
 
-**Full reference:** [Question 86: Testing the thing that tests everything else](../../../ansible/ansible-senior-interview-preparation/interview-questions/09-testing-validation.md#question-86-testing-the-thing-that-tests-everything-else)
+**Full reference:** [Question 86: Testing the thing that tests everything else](../../ansible/interview-questions/09-testing-validation.md#question-86-testing-the-thing-that-tests-everything-else)
 
 ---
 

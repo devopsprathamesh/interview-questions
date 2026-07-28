@@ -47,4 +47,4 @@ Add-ons (especially the AWS Load Balancer Controller, CSI drivers, and Karpenter
 
 - [`docs/eks-architecture.md`](eks-architecture.md), [`docs/ha-dr.md`](ha-dr.md)
 - [Lab 4 — Managed Node Groups](../labs/lab-04-managed-node-groups/)
-- Companion: [Terraform ASG instance-refresh guidance](../../../terraform/terraform-senior-interview-preparation/), [Ansible collection-versioning guidance](../../../ansible/ansible-senior-interview-preparation/docs/role-design.md)
+- Companion: [Terraform ASG instance-refresh guidance](../../terraform/), [Ansible collection-versioning guidance](../../ansible/docs/role-design.md)

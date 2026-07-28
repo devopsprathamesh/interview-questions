@@ -20,7 +20,7 @@ Karpenter's consolidation actively terminates and replaces underutilized nodes t
 
 ## 4. Spot instances — cost savings with a real interruption contract
 
-Both Karpenter and Cluster Autoscaler (via mixed-instance-policy ASGs) support Spot instances at significant cost savings, at the cost of a 2-minute interruption notice before AWS reclaims the instance. Handling this correctly requires: the AWS Node Termination Handler (or Karpenter's built-in interruption handling) to cordon/drain gracefully on the interruption notice, and workload-level tolerance (sufficient replica count elsewhere, `PodDisruptionBudget`-aware draining) so a Spot reclaim doesn't cause a user-facing outage — the same "expected, tolerable failure mode for cost-optimized fleets" framing as the companion Ansible repository's ASG-scale-in-during-a-patch-run guidance ([Question 44](../../../ansible/ansible-senior-interview-preparation/interview-questions/05-aws-cloud-integration.md#question-44-the-patch-that-raced-the-auto-scaler)).
+Both Karpenter and Cluster Autoscaler (via mixed-instance-policy ASGs) support Spot instances at significant cost savings, at the cost of a 2-minute interruption notice before AWS reclaims the instance. Handling this correctly requires: the AWS Node Termination Handler (or Karpenter's built-in interruption handling) to cordon/drain gracefully on the interruption notice, and workload-level tolerance (sufficient replica count elsewhere, `PodDisruptionBudget`-aware draining) so a Spot reclaim doesn't cause a user-facing outage — the same "expected, tolerable failure mode for cost-optimized fleets" framing as the companion Ansible repository's ASG-scale-in-during-a-patch-run guidance ([Question 44](../../ansible/interview-questions/05-aws-cloud-integration.md#question-44-the-patch-that-raced-the-auto-scaler)).
 
 ## 5. Horizontal Pod Autoscaler (HPA), Vertical Pod Autoscaler (VPA), and node autoscaling are three separate, complementary layers
 
@@ -36,7 +36,7 @@ Taints/tolerations (dedicating nodes to specific workloads, e.g., GPU nodes tain
 
 ## 7. Bootstrap and node configuration — where it overlaps with the companion Ansible repository
 
-A node's bootstrap process (kubelet configuration, container runtime setup, any pre-baked AMI content) is conceptually the same golden-AMI-baking problem discussed in the companion Ansible repository's [Lab 8 (Packer and Ansible AMI Baking)](../../../ansible/ansible-senior-interview-preparation/labs/lab-08-packer-ami-baking/) — EKS-optimized AMIs are themselves built via a Packer-equivalent process (the `amazon-eks-ami` build scripts), and a custom AMI (for compliance baseline requirements, pre-installed agents, etc.) follows the identical bake-then-launch pattern, just with an EKS-specific bootstrap script (`/etc/eks/bootstrap.sh`) wiring the node into the cluster on boot.
+A node's bootstrap process (kubelet configuration, container runtime setup, any pre-baked AMI content) is conceptually the same golden-AMI-baking problem discussed in the companion Ansible repository's [Lab 8 (Packer and Ansible AMI Baking)](../../ansible/labs/lab-08-packer-ami-baking/) — EKS-optimized AMIs are themselves built via a Packer-equivalent process (the `amazon-eks-ami` build scripts), and a custom AMI (for compliance baseline requirements, pre-installed agents, etc.) follows the identical bake-then-launch pattern, just with an EKS-specific bootstrap script (`/etc/eks/bootstrap.sh`) wiring the node into the cluster on boot.
 
 ## Common weak vs. senior answers
 
@@ -51,4 +51,4 @@ A node's bootstrap process (kubelet configuration, container runtime setup, any 
 
 - [`docs/eks-architecture.md`](eks-architecture.md), [`docs/ha-dr.md`](ha-dr.md)
 - [Lab 4 — Managed Node Groups](../labs/lab-04-managed-node-groups/), [Lab 5 — Karpenter Autoscaling](../labs/lab-05-karpenter-autoscaling/)
-- Companion: [Ansible Lab 8 — Packer and Ansible AMI Baking](../../../ansible/ansible-senior-interview-preparation/labs/lab-08-packer-ami-baking/)
+- Companion: [Ansible Lab 8 — Packer and Ansible AMI Baking](../../ansible/labs/lab-08-packer-ami-baking/)

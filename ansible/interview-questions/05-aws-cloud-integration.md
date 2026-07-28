@@ -281,7 +281,7 @@ How would you remediate this to least privilege without breaking any existing ro
 **Long-term prevention:** re-run the access-analyzer-based review periodically as new roles/playbooks are added to the automation library, and establish a policy that no new automation identity is ever provisioned with a broad managed policy "to unblock the team" in the first place.
 
 ### Step-by-Step Implementation
-Identical mechanics to the companion Terraform repository's [Question 63](../../../terraform/terraform-senior-interview-preparation/interview-questions/07-security.md#question-63-the-ci-role-that-could-do-almost-anything) remediation — IAM Access Analyzer policy generation from CloudTrail history, non-production dry run, tested cutover with a rollback window.
+Identical mechanics to the companion Terraform repository's [Question 63](../../terraform/interview-questions/07-security.md#question-63-the-ci-role-that-could-do-almost-anything) remediation — IAM Access Analyzer policy generation from CloudTrail history, non-production dry run, tested cutover with a rollback window.
 
 ### Under-the-Hood Explanation
 Whether the API calls originate from `terraform apply` or an Ansible playbook's `amazon.aws`/`community.aws` module invocations, they're the same underlying AWS API calls, logged identically in CloudTrail, subject to the same IAM policy evaluation — the least-privilege remediation process is mechanically identical regardless of which automation tool is making the calls, which is exactly why this question and its Terraform equivalent share the same answer.

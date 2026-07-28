@@ -1,6 +1,6 @@
 # Project Roadmap — EKS Senior Interview Preparation
 
-This document tracks build progress, records assumptions, and will hold the honest, mechanically-verified Phase 8 validation report once complete. It follows the identical discipline established in the companion [Terraform](../../terraform/terraform-senior-interview-preparation/PROJECT-ROADMAP.md) and [Ansible](../../ansible/ansible-senior-interview-preparation/PROJECT-ROADMAP.md) repositories: report what was actually done, not what was intended.
+This document tracks build progress, records assumptions, and will hold the honest, mechanically-verified Phase 8 validation report once complete. It follows the identical discipline established in the companion [Terraform](../terraform/PROJECT-ROADMAP.md) and [Ansible](../ansible/PROJECT-ROADMAP.md) repositories: report what was actually done, not what was intended.
 
 ## Phase Overview
 

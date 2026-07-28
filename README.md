@@ -10,9 +10,9 @@ All three interview-preparation repositories share the same ten-step **Interview
 
 | Repository | Topic | Status |
 |---|---|---|
-| [`terraform/terraform-senior-interview-preparation/`](terraform/terraform-senior-interview-preparation/README.md) | Terraform, AWS infrastructure, state management, modules, EKS provisioning, policy-as-code | ✅ Complete (all 8 phases) |
-| [`ansible/ansible-senior-interview-preparation/`](ansible/ansible-senior-interview-preparation/README.md) | Ansible, configuration management, inventory/roles/Vault, AWX, Packer AMI baking | ✅ Complete (all 8 phases) |
-| [`eks/eks-senior-interview-preparation/`](eks/eks-senior-interview-preparation/README.md) | EKS/Kubernetes, networking, IRSA, Karpenter, GitOps (ArgoCD), progressive delivery, policy-as-code | ✅ Complete (all 8 phases) |
+| [`terraform/`](terraform/README.md) | Terraform, AWS infrastructure, state management, modules, EKS provisioning, policy-as-code | ✅ Complete (all 8 phases) |
+| [`ansible/`](ansible/README.md) | Ansible, configuration management, inventory/roles/Vault, AWX, Packer AMI baking | ✅ Complete (all 8 phases) |
+| [`eks/`](eks/README.md) | EKS/Kubernetes, networking, IRSA, Karpenter, GitOps (ArgoCD), progressive delivery, policy-as-code | ✅ Complete (all 8 phases) |
 | [`floci/floci-local-aws-setup/`](floci/floci-local-aws-setup/README.md) | Running the three repos above against a local AWS emulator instead of a real account | ✅ Setup guide (not an interview-question repo) |
 
 Every one of the three interview-preparation repositories (Terraform, Ansible, EKS) contains, in full: **120 senior-level interview questions** (15 categories, continuously numbered), **15 hands-on labs** culminating in an enterprise capstone, **15 Mermaid architecture/workflow diagrams**, **3 full mock interviews** (Senior / Lead / Staff-Architect, 15 questions each with scoring rubrics), a set of topic **cheat sheets**, deep-dive reference **docs**, and a `PROJECT-ROADMAP.md` documenting exactly what was built and how it was validated — including honest disclosure of what could and couldn't be mechanically tested in the environment these repos were built in (see [Validation and honesty](#validation-and-honesty) below).
@@ -20,7 +20,7 @@ Every one of the three interview-preparation repositories (Terraform, Ansible, E
 Each repository follows a similar shape, with tool-specific differences (Terraform uses `modules/` and `environments/`; Ansible uses `roles/` and `environments/`; EKS uses `manifests/`/`charts/` since Kubernetes has no direct equivalent of a Terraform module or Ansible role at the repo-structure level):
 
 ```
-<tool>-senior-interview-preparation/
+<tool>/
 ├── README.md                # overview, usage paths, cost warning, lab map
 ├── PROJECT-ROADMAP.md        # single source of truth for build status and validation results
 ├── docs/                     # deep-dive reference docs (architecture, internals, security, testing, HA/DR, cheat sheet)
@@ -39,19 +39,19 @@ Each repository follows a similar shape, with tool-specific differences (Terrafo
 
 120 interview questions (15 categories), 15 progressive labs culminating in an enterprise capstone, 7 reusable modules (VPC, security groups, IAM, EKS, RDS, ALB, observability), 15 Mermaid diagrams, 3 mock interviews with rubrics, and 14 cheat sheets covering CLI, state, lifecycle, providers, CI/CD, security, testing, and multi-account patterns.
 
-Start here: [`terraform/terraform-senior-interview-preparation/README.md`](terraform/terraform-senior-interview-preparation/README.md)
+Start here: [`terraform/README.md`](terraform/README.md)
 
 ## Ansible — Senior Interview Preparation
 
 120 interview questions (15 categories, mirroring the Terraform allocation shape), 15 progressive labs culminating in an enterprise capstone with a full `OPERATIONS.md` deliverable, real runnable playbooks/roles/Molecule scenarios, 15 Mermaid diagrams, 3 mock interviews with rubrics, and 11 cheat sheets covering CLI, variable precedence, Vault/secrets, role design, dynamic inventory, testing/Molecule, CI/CD, common failures, AWS integration, performance/scale, and the interview response framework.
 
-Start here: [`ansible/ansible-senior-interview-preparation/README.md`](ansible/ansible-senior-interview-preparation/README.md)
+Start here: [`ansible/README.md`](ansible/README.md)
 
 ## EKS — Senior Interview Preparation
 
 120 interview questions (15 categories covering cluster architecture, networking/VPC CNI, IRSA/IAM, node management/Karpenter, storage/CSI, autoscaling, security hardening, add-ons/upgrades, observability, GitOps/progressive delivery, troubleshooting, HA/DR, performance/scale, governance, and migration/leadership), 15 progressive labs culminating in an enterprise capstone with a full `OPERATIONS.md` deliverable, real Kubernetes manifests/Helm values/Kustomize overlays/Kyverno policies/Argo Rollouts and ArgoCD configs, 15 Mermaid diagrams, 3 mock interviews with rubrics, and 12 cheat sheets. This repository picks up from a cluster already provisioned by the Terraform repository's EKS module and cross-references both companion repos throughout (e.g., the Terraform/Kubernetes-native provisioning boundary, and where Ansible still has a role once workloads move to Kubernetes).
 
-Start here: [`eks/eks-senior-interview-preparation/README.md`](eks/eks-senior-interview-preparation/README.md)
+Start here: [`eks/README.md`](eks/README.md)
 
 ## Floci — Local AWS Setup
 

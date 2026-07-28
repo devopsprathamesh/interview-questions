@@ -88,7 +88,7 @@ kind delete cluster --name ansible-lab09
 - [Question 57: The one-off task that didn't need a whole playbook run](../../interview-questions/06-kubernetes-containers.md#question-57-the-one-off-task-that-didnt-need-a-whole-playbook-run)
 
 ## Production Considerations
-- A real bootstrap-then-handoff would transition to the companion EKS repository's [Lab 10 — GitOps with ArgoCD](../../../eks/eks-senior-interview-preparation/labs/lab-10-gitops-argocd/) — this lab's `bootstrap.yml` is intentionally scoped to a one-time, pre-GitOps bootstrap only.
+- A real bootstrap-then-handoff would transition to the companion EKS repository's [Lab 10 — GitOps with ArgoCD](../../../eks/labs/lab-10-gitops-argocd/) — this lab's `bootstrap.yml` is intentionally scoped to a one-time, pre-GitOps bootstrap only.
 - Production Kubernetes-targeting Ansible should always use IRSA/Pod-Identity-equivalent scoped credentials for whatever identity the control node authenticates to the cluster as, never a broad, shared kubeconfig admin credential.
 
 ## Advanced Challenge

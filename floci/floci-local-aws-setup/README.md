@@ -1,6 +1,6 @@
 # Floci — Local AWS Setup
 
-A guide for running the [`terraform/`](../../terraform/terraform-senior-interview-preparation/README.md), [`ansible/`](../../ansible/ansible-senior-interview-preparation/README.md), and [`eks/`](../../eks/eks-senior-interview-preparation/README.md) labs against a **local AWS emulator** ([Floci](https://floci.io/aws/#quickstart)) instead of a real, chargeable AWS account.
+A guide for running the [`terraform/`](../../terraform/README.md), [`ansible/`](../../ansible/README.md), and [`eks/`](../../eks/README.md) labs against a **local AWS emulator** ([Floci](https://floci.io/aws/#quickstart)) instead of a real, chargeable AWS account.
 
 This directory is not another interview-question bank. It is a practical setup layer: install Floci once, point the three companion repos at it, and work through whichever of their labs actually function against an emulator — for zero AWS cost.
 

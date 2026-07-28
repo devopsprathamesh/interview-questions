@@ -375,7 +375,7 @@ A Packer + Ansible pipeline (per Lab 8) bakes a custom EKS node AMI including se
 Diagnose this AMI-to-cluster compatibility gap and connect it to the golden-AMI discipline from earlier in this repository.
 
 ### Strong Senior-Level Answer
-**Initial assessment:** per the [Lab 8](../labs/lab-08-packer-ami-baking/) golden-AMI pattern, the AMI's baked-in kubelet version must stay synchronized with whatever Kubernetes version the cluster's control plane is currently running — if the cluster was upgraded (per the companion EKS repository's upgrade-sequencing guidance) since this AMI was last baked, the AMI's kubelet is now stale relative to the control plane, exactly the kind of version-matrix gap the EKS repository's [Question 70](../../../eks/eks-senior-interview-preparation/interview-questions/08-addons-upgrades.md) covers for self-managed add-ons, here applied to the node AMI itself.
+**Initial assessment:** per the [Lab 8](../labs/lab-08-packer-ami-baking/) golden-AMI pattern, the AMI's baked-in kubelet version must stay synchronized with whatever Kubernetes version the cluster's control plane is currently running — if the cluster was upgraded (per the companion EKS repository's upgrade-sequencing guidance) since this AMI was last baked, the AMI's kubelet is now stale relative to the control plane, exactly the kind of version-matrix gap the EKS repository's [Question 70](../../eks/interview-questions/08-addons-upgrades.md) covers for self-managed add-ons, here applied to the node AMI itself.
 
 **Technical reasoning:** EKS enforces kubelet-to-control-plane version skew limits (kubelet generally must not be more than a few minor versions behind the control plane) — an AMI baked before a control-plane upgrade, if not correspondingly rebuilt, can fall outside this supported skew window, causing exactly the node-join failure described.
 
@@ -389,7 +389,7 @@ Diagnose this AMI-to-cluster compatibility gap and connect it to the golden-AMI 
 
 **Rollback or recovery strategy:** until the AMI is rebuilt, avoid launching any new nodes from the stale AMI — pin node groups/Karpenter `EC2NodeClass` to the previous, still-compatible AMI version if an emergency scale-out is needed before the rebuild completes.
 
-**Long-term prevention:** integrate AMI-rebuild triggering directly into the EKS repository's own cluster-upgrade sequencing checklist (per its [`docs/addons-and-upgrades.md`](../../../eks/eks-senior-interview-preparation/docs/addons-and-upgrades.md) §2) — a control-plane upgrade should always trigger a corresponding AMI rebuild check, closing this exact cross-repository coordination gap between the Ansible-driven AMI pipeline and the EKS cluster's own version lifecycle.
+**Long-term prevention:** integrate AMI-rebuild triggering directly into the EKS repository's own cluster-upgrade sequencing checklist (per its [`docs/addons-and-upgrades.md`](../../eks/docs/addons-and-upgrades.md) §2) — a control-plane upgrade should always trigger a corresponding AMI rebuild check, closing this exact cross-repository coordination gap between the Ansible-driven AMI pipeline and the EKS cluster's own version lifecycle.
 
 ### Step-by-Step Implementation
 ```yaml
@@ -418,7 +418,7 @@ This treats the symptom on one node without fixing the actual source (the AMI it
 Connects the AMI-to-cluster kubelet version-skew failure to the golden-AMI discipline and explicitly ties AMI-rebuild triggering to the EKS repository's own cluster-upgrade sequencing, recognizing this as a genuine cross-repository coordination point.
 
 ### Hands-On Connection
-[Lab 8 — Packer and Ansible AMI Baking](../labs/lab-08-packer-ami-baking/) and the companion [EKS repository's upgrade sequencing guidance](../../../eks/eks-senior-interview-preparation/docs/addons-and-upgrades.md).
+[Lab 8 — Packer and Ansible AMI Baking](../labs/lab-08-packer-ami-baking/) and the companion [EKS repository's upgrade sequencing guidance](../../eks/docs/addons-and-upgrades.md).
 
 ---
 

@@ -52,7 +52,7 @@ The **node's own IAM instance-profile role** (distinct from any pod's IRSA role)
 
 ## 8. Cross-account access for pods
 
-A pod's IRSA role can itself assume a role in a different AWS account (a second-hop `sts:AssumeRole`, chained after the first `AssumeRoleWithWebIdentity`), the Kubernetes-native equivalent of the companion Terraform repository's multi-account provider-aliasing pattern and the companion Ansible repository's [Question 42](../../../ansible/ansible-senior-interview-preparation/interview-questions/04-modules-plugins.md#question-42-one-playbook-five-aws-accounts) cross-account automation-identity pattern — the same "central identity, scoped per-target-account role" architecture, expressed via IRSA's trust chain instead of an assumed CI role.
+A pod's IRSA role can itself assume a role in a different AWS account (a second-hop `sts:AssumeRole`, chained after the first `AssumeRoleWithWebIdentity`), the Kubernetes-native equivalent of the companion Terraform repository's multi-account provider-aliasing pattern and the companion Ansible repository's [Question 42](../../ansible/interview-questions/04-modules-plugins.md#question-42-one-playbook-five-aws-accounts) cross-account automation-identity pattern — the same "central identity, scoped per-target-account role" architecture, expressed via IRSA's trust chain instead of an assumed CI role.
 
 ## Common weak vs. senior answers
 
@@ -67,4 +67,4 @@ A pod's IRSA role can itself assume a role in a different AWS account (a second-
 
 - [`docs/eks-architecture.md`](eks-architecture.md), [`docs/security.md`](security.md)
 - [Lab 3 — IRSA and IAM](../labs/lab-03-irsa-and-iam/)
-- Companion: [Terraform multi-account patterns](../../../terraform/terraform-senior-interview-preparation/), [Ansible Question 42](../../../ansible/ansible-senior-interview-preparation/interview-questions/04-modules-plugins.md)
+- Companion: [Terraform multi-account patterns](../../terraform/), [Ansible Question 42](../../ansible/interview-questions/04-modules-plugins.md)

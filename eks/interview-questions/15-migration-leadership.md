@@ -58,7 +58,7 @@ A simultaneous, big-bang migration of 40 applications forgoes the ability to lea
 Designs a staged, risk-tiered, learn-early migration strategy with concrete phases, objective success criteria, and an explicit "never remove the fallback before the replacement is proven" discipline, rather than proposing an undifferentiated, all-at-once migration to meet a deadline.
 
 ### Hands-On Connection
-[Lab 15 — Enterprise Capstone](../labs/lab-15-enterprise-capstone/) and the companion [Ansible repository's legacy-platform patterns](../../../ansible/ansible-senior-interview-preparation/).
+[Lab 15 — Enterprise Capstone](../labs/lab-15-enterprise-capstone/) and the companion [Ansible repository's legacy-platform patterns](../../ansible/).
 
 ---
 

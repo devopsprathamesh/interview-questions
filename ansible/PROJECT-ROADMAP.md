@@ -1,6 +1,6 @@
 # Project Roadmap
 
-This repository is built in 8 phases, mirroring the structure and rigor of the companion Terraform repository at `../../terraform/terraform-senior-interview-preparation/`. This file is the single source of truth for what is done, in progress, or not started. Update this file at the end of every phase — do not let it drift from reality.
+This repository is built in 8 phases, mirroring the structure and rigor of the companion Terraform repository at `../terraform/`. This file is the single source of truth for what is done, in progress, or not started. Update this file at the end of every phase — do not let it drift from reality.
 
 Status legend: ✅ Complete · 🚧 In progress · ⬜ Not started
 
@@ -178,7 +178,7 @@ A cross-repository link in `interview-questions/05-aws-cloud-integration.md` (Qu
 ### Confirmed-benign flags (not bugs)
 
 - `interview-questions/03-roles-collections.md` references `MIGRATION.md` inside a **fenced code block** illustrating what a hypothetical deprecated role's own README might say — this is illustrative example content, not a real, clickable link within this repository, and the link checker correctly has no way to distinguish that automatically.
-- `labs/lab-09-kubernetes-and-helm/README.md` links to `../../../eks/eks-senior-interview-preparation/labs/lab-10-gitops-argocd/` — a legitimate **forward reference** to the companion EKS repository's GitOps lab, which had not yet been built at the time this Ansible repository's Phase 8 ran. This link will resolve correctly once the EKS repository's own Phase 5–6 labs are complete; it is not a defect in this repository.
+- `labs/lab-09-kubernetes-and-helm/README.md` links to `../../../eks/labs/lab-10-gitops-argocd/` — a legitimate **forward reference** to the companion EKS repository's GitOps lab, which had not yet been built at the time this Ansible repository's Phase 8 ran. This link will resolve correctly once the EKS repository's own Phase 5–6 labs are complete; it is not a defect in this repository.
 - `labs/lab-04-ansible-vault/README.md` links to a `group_vars/` directory that does not exist in the repository as committed — by design, per the lab's own Step-by-Step Tasks, the learner creates this directory and its vault-encrypted contents themselves as the hands-on exercise (`ansible-vault create ... group_vars/dev/vault.yml`). Pre-creating it would defeat the lab's purpose.
 
 ### What was honestly NOT validated (tool unavailability)

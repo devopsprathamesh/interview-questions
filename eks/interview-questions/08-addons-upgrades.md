@@ -363,7 +363,7 @@ A platform team maintains an umbrella Helm chart bundling five sub-charts (each 
 Diagnose this coupling and design a process preventing this class of surprise.
 
 ### Strong Senior-Level Answer
-**Initial assessment:** an undocumented, implicit dependency between two supposedly-independent sub-charts is a hidden coupling that only surfaces when one side changes — exactly the kind of "nobody knew this dependency existed until it broke" gap the companion Ansible repository's role-dependency guidance ([Question 27](../../../ansible/ansible-senior-interview-preparation/interview-questions/03-roles-collections.md#question-27-the-role-that-only-told-you-the-port)) addresses for role outputs, applied here to Helm sub-chart interdependencies.
+**Initial assessment:** an undocumented, implicit dependency between two supposedly-independent sub-charts is a hidden coupling that only surfaces when one side changes — exactly the kind of "nobody knew this dependency existed until it broke" gap the companion Ansible repository's role-dependency guidance ([Question 27](../../ansible/interview-questions/03-roles-collections.md#question-27-the-role-that-only-told-you-the-port)) addresses for role outputs, applied here to Helm sub-chart interdependencies.
 
 **Technical reasoning:** Helm's own dependency mechanism (`Chart.yaml`'s `dependencies` list) tracks *chart-level* dependencies (which sub-charts are bundled), but has no built-in mechanism to express or enforce *behavioral* dependencies between sub-charts (e.g., "sub-chart B's controller assumes sub-chart A's CRD is present with a specific schema/field") — this class of implicit coupling exists entirely outside what Helm itself tracks or validates.
 

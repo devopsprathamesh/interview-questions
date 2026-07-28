@@ -651,7 +651,7 @@ How would you have caught this before it happened, and how do you prevent recurr
 
 **Rollback or recovery strategy:** for the immediate incident, correct the annotation and confirm the load balancer's scheme updates accordingly (may require a brief service interruption as the Load Balancer Controller reprovisions); separately assess whether the several-hour public exposure window requires further incident response (was any sensitive data actually accessed, credential rotation needed, etc.).
 
-**Long-term prevention:** treat "does this Service/Ingress's exposure scheme match its intended internal/external designation" as a standing, policy-enforced, tested guardrail for every namespace/workload going forward — exactly the same "prevent plus independently detect" layered-defense discipline established in the companion Ansible repository's [Question 52](../../../ansible/ansible-senior-interview-preparation/interview-questions/05-aws-cloud-integration.md#question-52-the-tag-that-decided-everything) tagging-guardrail guidance, applied here to load-balancer exposure scheme.
+**Long-term prevention:** treat "does this Service/Ingress's exposure scheme match its intended internal/external designation" as a standing, policy-enforced, tested guardrail for every namespace/workload going forward — exactly the same "prevent plus independently detect" layered-defense discipline established in the companion Ansible repository's [Question 52](../../ansible/interview-questions/05-aws-cloud-integration.md#question-52-the-tag-that-decided-everything) tagging-guardrail guidance, applied here to load-balancer exposure scheme.
 
 ### Step-by-Step Implementation
 ```yaml

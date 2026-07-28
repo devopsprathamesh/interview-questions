@@ -52,4 +52,4 @@ A cluster upgrade, a bad cluster-wide policy rollout, or a misconfigured admissi
 
 - [`docs/eks-architecture.md`](eks-architecture.md), [`docs/cicd-gitops.md`](cicd-gitops.md)
 - [Lab 15 — Enterprise Capstone](../labs/lab-15-enterprise-capstone/)
-- Companion: [Ansible HA/DR guidance](../../../ansible/ansible-senior-interview-preparation/docs/ha-dr.md), [Terraform multi-region guidance](../../../terraform/terraform-senior-interview-preparation/)
+- Companion: [Ansible HA/DR guidance](../../ansible/docs/ha-dr.md), [Terraform multi-region guidance](../../terraform/)

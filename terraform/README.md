@@ -61,7 +61,7 @@ Several labs create real, chargeable AWS resources (NAT gateways, EKS clusters, 
 
 Never leave Lab 9 (EKS) or Lab 15 (capstone) infrastructure running unattended.
 
-**Want to avoid AWS charges entirely?** [`../../floci/floci-local-aws-setup/`](../../floci/floci-local-aws-setup/README.md) covers running these labs against a local AWS emulator instead of a real account. It's honest about what does and doesn't work locally — see [docs/terraform-integration.md](../../floci/floci-local-aws-setup/docs/terraform-integration.md) for a module-by-module breakdown (pure API-object modules like `vpc`/`security-groups`/`iam` are the best local candidates; NAT gateway egress, real ALB DNS resolution, and multi-AZ networking realism are not).
+**Want to avoid AWS charges entirely?** [`../floci/floci-local-aws-setup/`](../floci/floci-local-aws-setup/README.md) covers running these labs against a local AWS emulator instead of a real account. It's honest about what does and doesn't work locally — see [docs/terraform-integration.md](../floci/floci-local-aws-setup/docs/terraform-integration.md) for a module-by-module breakdown (pure API-object modules like `vpc`/`security-groups`/`iam` are the best local candidates; NAT gateway egress, real ALB DNS resolution, and multi-AZ networking realism are not).
 
 ## Interview Response Framework
 

@@ -26,7 +26,7 @@ Since GitOps means the Git repo is the actual source of truth applied to the clu
 - **Sealed Secrets** (Bitnami) — encrypts a Secret's contents with a cluster-specific public key before committing; only the in-cluster Sealed Secrets controller (holding the private key) can decrypt it, so the committed, encrypted `SealedSecret` object is safe to store in Git even in a public repo.
 - **External Secrets Operator** — the committed Git object is a reference (e.g., "this Secret's value lives at this AWS Secrets Manager ARN"), not the value itself; the operator fetches the real value live from AWS Secrets Manager/Parameter Store and materializes it as a Kubernetes Secret in-cluster, never storing the actual value in Git at all.
 
-The senior-level preference is generally External Secrets Operator (the value's source of truth remains AWS Secrets Manager, with its own rotation/audit capabilities — see the companion Ansible repository's [Question 48](../../../ansible/ansible-senior-interview-preparation/interview-questions/05-aws-cloud-integration.md#question-48-who-rotates-the-password) credential-rotation-ownership guidance, directly applicable here) over Sealed Secrets, which still requires manual re-sealing on rotation.
+The senior-level preference is generally External Secrets Operator (the value's source of truth remains AWS Secrets Manager, with its own rotation/audit capabilities — see the companion Ansible repository's [Question 48](../../ansible/interview-questions/05-aws-cloud-integration.md#question-48-who-rotates-the-password) credential-rotation-ownership guidance, directly applicable here) over Sealed Secrets, which still requires manual re-sealing on rotation.
 
 ## 5. Multi-environment promotion via Kustomize overlays
 
@@ -53,4 +53,4 @@ A subtle multi-layer trap: with progressive delivery (§3), the Rollout resource
 
 - [`docs/eks-architecture.md`](eks-architecture.md), [`docs/security.md`](security.md)
 - [Lab 10 — GitOps with ArgoCD](../labs/lab-10-gitops-argocd/), [Lab 11 — Progressive Delivery](../labs/lab-11-progressive-delivery/), [Lab 12 — CI/CD Pipeline](../labs/lab-12-cicd-pipeline/)
-- Companion: [Ansible Question 48](../../../ansible/ansible-senior-interview-preparation/interview-questions/05-aws-cloud-integration.md), [Terraform CI/CD guidance](../../../terraform/terraform-senior-interview-preparation/)
+- Companion: [Ansible Question 48](../../ansible/interview-questions/05-aws-cloud-integration.md), [Terraform CI/CD guidance](../../terraform/)

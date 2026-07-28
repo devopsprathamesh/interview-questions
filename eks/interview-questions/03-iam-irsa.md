@@ -384,7 +384,7 @@ A platform team needs a single set of Kubernetes controllers (running in one "hu
 Design the cross-account access architecture for this pod-based automation.
 
 ### Strong Senior-Level Answer
-**Initial assessment:** this is the pod-level equivalent of the companion Ansible repository's [Question 42](../../../ansible/ansible-senior-interview-preparation/interview-questions/04-modules-plugins.md#question-42-one-playbook-five-aws-accounts) cross-account automation-identity pattern — a central IRSA/Pod Identity role in the hub cluster, chained via a second-hop `sts:AssumeRole` into each target account's own scoped role, per [`docs/iam-irsa.md`](../docs/iam-irsa.md) §8.
+**Initial assessment:** this is the pod-level equivalent of the companion Ansible repository's [Question 42](../../ansible/interview-questions/04-modules-plugins.md#question-42-one-playbook-five-aws-accounts) cross-account automation-identity pattern — a central IRSA/Pod Identity role in the hub cluster, chained via a second-hop `sts:AssumeRole` into each target account's own scoped role, per [`docs/iam-irsa.md`](../docs/iam-irsa.md) §8.
 
 **Technical reasoning:** the pod's IRSA (or Pod Identity) role in the hub cluster's account establishes its base identity via the normal trust chain; that role's own permissions are then limited to *only* `sts:AssumeRole` against five specific, named target-account roles (one per business unit), each of those target roles independently scoped to only the specific permissions that business unit's automation actually needs — no single credential grants broad access across all five accounts simultaneously.
 

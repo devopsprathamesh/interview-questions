@@ -144,7 +144,7 @@ All 45 mock-interview questions reference the corresponding full-length question
 ### Files created
 - `README.md` — repository overview, usage paths, cost warning, lab dependency map (Mermaid), interview response framework summary
 - `PROJECT-ROADMAP.md` — this file
-- Full directory skeleton under `terraform-senior-interview-preparation/`:
+- Full directory skeleton under `terraform-senior-interview-preparation/` (later flattened to `terraform/` at the repository root — see the directory listing below for the current layout):
   - `docs/`, `interview-questions/`, `labs/lab-01…lab-15/`, `modules/{vpc,security-groups,iam,eks,rds,alb,observability}/`, `environments/{dev,staging,production}/`, `policies/`, `tests/`, `scripts/`, `diagrams/`, `.github/workflows/`, `mock-interviews/`, `cheatsheets/`
 
 ### Question allocation plan (target: exactly 120)

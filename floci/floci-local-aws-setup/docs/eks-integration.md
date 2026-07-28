@@ -1,6 +1,6 @@
 # Pointing the EKS repo at Floci
 
-This covers what running [`eks/eks-senior-interview-preparation/`](../../../eks/eks-senior-interview-preparation/) against Floci can and cannot realistically give you. Read this before assuming the whole repo "just works" locally — EKS is the one companion repo where the gap between the real service and any local emulation is largest, and overstating it would violate this whole collection's documented commitment to honest capability claims (see the root [README's Validation and honesty section](../../../README.md#validation-and-honesty)).
+This covers what running [`eks/`](../../../eks/) against Floci can and cannot realistically give you. Read this before assuming the whole repo "just works" locally — EKS is the one companion repo where the gap between the real service and any local emulation is largest, and overstating it would violate this whole collection's documented commitment to honest capability claims (see the root [README's Validation and honesty section](../../../README.md#validation-and-honesty)).
 
 ## The one claim worth taking seriously
 
@@ -11,7 +11,7 @@ Floci's own quickstart page states, for EKS specifically, that it "spins up a re
 Anything in the EKS repo that is pure Kubernetes — no AWS-specific control plane integration involved:
 
 - Core object lifecycle: Deployments, Services, ConfigMaps, Secrets, Namespaces, Ingress objects (as API objects, not necessarily wired to a real load balancer — see below).
-- Scheduling and workload behavior: most of [Lab 14: Troubleshooting and Recovery](../../../eks/eks-senior-interview-preparation/labs/lab-14-troubleshooting-and-recovery/)'s scenarios (zero-endpoint Services, OOMKilled recurrence, unschedulable pods) are pure `kubectl`/scheduler mechanics that don't touch AWS at all.
+- Scheduling and workload behavior: most of [Lab 14: Troubleshooting and Recovery](../../../eks/labs/lab-14-troubleshooting-and-recovery/)'s scenarios (zero-endpoint Services, OOMKilled recurrence, unschedulable pods) are pure `kubectl`/scheduler mechanics that don't touch AWS at all.
 - GitOps tooling itself: ArgoCD/Argo Rollouts talk to the Kubernetes API, not to AWS — the controllers themselves should run fine against a real k3s node.
 - Kyverno/OPA policy enforcement: also pure Kubernetes admission-control mechanics.
 - Helm chart installs and Kustomize overlays: these just produce Kubernetes manifests either way.
@@ -31,7 +31,7 @@ Anything in the EKS repo that is pure Kubernetes — no AWS-specific control pla
 
 Split the EKS repo's labs into two groups when working locally:
 
-1. **Run against Floci**: [Lab 14 (Troubleshooting)](../../../eks/eks-senior-interview-preparation/labs/lab-14-troubleshooting-and-recovery/), most manifest/Helm/Kustomize-only labs, GitOps/ArgoCD labs, policy-as-code labs — anything where the interesting behavior lives entirely inside Kubernetes.
+1. **Run against Floci**: [Lab 14 (Troubleshooting)](../../../eks/labs/lab-14-troubleshooting-and-recovery/), most manifest/Helm/Kustomize-only labs, GitOps/ArgoCD labs, policy-as-code labs — anything where the interesting behavior lives entirely inside Kubernetes.
 2. **Treat as read-through/whiteboard exercises, or run against a real (cost-controlled, single-AZ) cluster**: the IRSA lab, the Karpenter lab, the ALB/ingress lab, and anything in the enterprise capstone that depends on those — the value of these labs is specifically in the AWS-EKS integration behavior that a local k3s node can't reproduce.
 
 ## Connecting kubectl to Floci's k3s node
@@ -40,4 +40,4 @@ The exact mechanism (kubeconfig extraction, port, TLS) is not documented on Floc
 
 ## Where this picks up
 
-The EKS repo's own README already documents that it "picks up from a cluster already provisioned by the Terraform repo's EKS module" — see [`modules/eks`](../../../terraform/terraform-senior-interview-preparation/modules/eks/) and [terraform-integration.md](terraform-integration.md#module-by-module-expectations) for the Terraform side of getting a Floci-backed cluster stood up in the first place.
+The EKS repo's own README already documents that it "picks up from a cluster already provisioned by the Terraform repo's EKS module" — see [`modules/eks`](../../../terraform/modules/eks/) and [terraform-integration.md](terraform-integration.md#module-by-module-expectations) for the Terraform side of getting a Floci-backed cluster stood up in the first place.

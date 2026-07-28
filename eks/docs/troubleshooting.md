@@ -52,7 +52,7 @@ Deep-dive, runbook-style reference for [`interview-questions/11-troubleshooting.
 
 ## 9. Dynamic inventory/label-selector equivalent: a Service silently matching zero pods
 
-**Likely causes:** a label selector typo or a rollout that changed a Deployment's pod-template labels without updating the Service's selector to match — mirrors the companion Ansible repository's [Question 11](../../../ansible/ansible-senior-interview-preparation/interview-questions/02-inventory-variables.md#question-11-the-play-that-matched-zero-hosts) "zero hosts matched" silent-gap pattern, here at the Service/label-selector level.
+**Likely causes:** a label selector typo or a rollout that changed a Deployment's pod-template labels without updating the Service's selector to match — mirrors the companion Ansible repository's [Question 11](../../ansible/interview-questions/02-inventory-variables.md#question-11-the-play-that-matched-zero-hosts) "zero hosts matched" silent-gap pattern, here at the Service/label-selector level.
 **Diagnose:** `kubectl get endpoints <service>` showing an empty endpoint list despite pods appearing to run fine; compare the Service's `spec.selector` against the actual pods' labels (`kubectl get pods --show-labels`).
 **Fix direction:** correct the mismatched selector/labels; consider an alert on any Service with zero endpoints for more than a brief grace period as a standing guardrail against this exact silent-gap failure mode recurring.
 
