@@ -65,7 +65,7 @@ Use the [Scoring Rubric](#scoring-rubric-reference) at the end for every questio
 
 **Model answer:** *"Very little was actually proven about the documented process's own reliability — every 'pass' validated that this one engineer, executing largely from memory, could recover the system, never whether the documentation itself was sufficient for someone else to succeed. That's the real test a DR drill needs to pass. I'd have caught this earlier by rotating drill ownership from the start, never letting the same person run it twice consecutively — the same principle as testing a break-glass access path: an emergency procedure never exercised by anyone but its author is functionally undocumented, no matter how many times the author has run it privately."*
 
-**Full reference:** [Question 108: The backup that was never tested until it mattered](../interview-questions/11-ha-dr.md#question-108-the-backup-that-was-never-tested-until-it-mattered) (companion repository — the identical DR bus-factor lesson applies directly to EKS DR drills)
+**Full reference:** [Question 108: The backup that was never tested until it mattered](../interview-questions/12-ha-dr.md#question-108-the-backup-that-was-never-tested-until-it-mattered) (companion repository — the identical DR bus-factor lesson applies directly to EKS DR drills)
 
 ---
 
@@ -149,7 +149,7 @@ Use the [Scoring Rubric](#scoring-rubric-reference) at the end for every questio
 
 **Model answer:** *"This isn't a case where one approach is simply correct — it's a genuine trade-off between reproducibility, since a golden-AMI-based node's actual state is a function of exactly one thing, the AMI it booted from, and rollout speed, since in-place patching skips the full bake-test-cycle for a single urgent fix. My default recommendation is golden-AMI as the primary mechanism for routine node patching, paired with an ASG instance-refresh, with a fast in-place path reserved for genuinely same-day-critical fixes — explicitly fed back into the next golden-AMI bake so it doesn't become permanent, undocumented drift. Rollback is also meaningfully cleaner with golden-AMI: reverting a launch template to a previous AMI version is far more reliable than trying to undo an in-place patch's actual effect on running nodes."*
 
-**Full reference:** [Question 50: Rolling update or fresh cattle?](../interview-questions/05-aws-cloud-integration.md#question-50-rolling-update-or-fresh-cattle) (companion Ansible repository — the identical trade-off applied directly to EKS node-group AMI management)
+**Full reference:** [Question 50: Rolling update or fresh cattle?](../../../ansible/ansible-senior-interview-preparation/interview-questions/05-aws-cloud-integration.md#question-50-rolling-update-or-fresh-cattle) (companion Ansible repository — the identical trade-off applied directly to EKS node-group AMI management)
 
 ---
 
@@ -170,7 +170,7 @@ Use the [Scoring Rubric](#scoring-rubric-reference) at the end for every questio
 
 **Model answer:** *"The deeper lesson is that the GitOps controller is a single point of failure precisely for the moments that matter most — deploying a fix during an active incident. HA addresses the routine-maintenance-collision risk, but I'd also build and periodically test a documented, tightly-scoped break-glass fallback: a reviewed, deliberate direct `kubectl apply` for a specific urgent fix, explicitly logged and followed up with an immediate corresponding Git commit once the controller is back, so the break-glass action itself doesn't become permanent, untracked drift. This mirrors the exact 'the tool you depend on during a crisis can't share fate with the crisis' principle from DR design generally — HA reduces the likelihood of needing this path, but doesn't eliminate the need to have it, tested, for whatever gap HA itself might still have."*
 
-**Full reference:** [Question 78: The AWX instance that was a single point of failure for everything](../../ansible/ansible-senior-interview-preparation/interview-questions/08-cicd-automation.md#question-78-the-awx-instance-that-was-a-single-point-of-failure-for-everything) (companion Ansible repository — the identical single-point-of-failure principle, applied here to ArgoCD)
+**Full reference:** [Question 78: The AWX instance that was a single point of failure for everything](../../../ansible/ansible-senior-interview-preparation/interview-questions/08-cicd-automation.md#question-78-the-awx-instance-that-was-a-single-point-of-failure-for-everything) (companion Ansible repository — the identical single-point-of-failure principle, applied here to ArgoCD)
 
 ---
 
@@ -254,7 +254,7 @@ Use the [Scoring Rubric](#scoring-rubric-reference) at the end for every questio
 
 **Model answer:** *"I'd convert 'prove least privilege' into specific, checkable criteria — does every IRSA role's trust policy include proper `sub`/`aud` scoping, are there any RBAC wildcard grants, does any ServiceAccount lack IRSA annotation entirely and silently fall back to the node role. Then I'd build one automated script running that check across all thirty clusters, producing a single, defensible report — self-attestation from each cluster team individually isn't real evidence for a compliance audit, and manual review at this scale isn't reliable or fast enough regardless. I'd spot-check the automated scan against a manual sample first to validate its own accuracy before relying on the full output."*
 
-**Full reference:** [Question 34: Auditing IRSA at fleet scale](../../ansible/ansible-senior-interview-preparation/interview-questions/03-roles-collections.md#question-34-sunsetting-the-role-nobody-was-supposed-to-still-be-using) (companion Ansible repository — the identical fleet-scale audit methodology, applied here to EKS IRSA roles specifically)
+**Full reference:** [Question 34: Auditing IRSA at fleet scale](../../../ansible/ansible-senior-interview-preparation/interview-questions/03-roles-collections.md#question-34-sunsetting-the-role-nobody-was-supposed-to-still-be-using) (companion Ansible repository — the identical fleet-scale audit methodology, applied here to EKS IRSA roles specifically)
 
 ---
 
@@ -296,7 +296,7 @@ Use the [Scoring Rubric](#scoring-rubric-reference) at the end for every questio
 
 **Model answer:** *"This is a genuine bus-factor risk needing active remediation before it becomes an emergency — I wouldn't wait for the leave to start. I'd interview the engineer specifically to enumerate every unwritten rule they currently catch manually, then codify each one as either an automated Kyverno/OPA check or, where that's not yet feasible, an explicit, written review-checklist item visible to every reviewer, not just this one person. I'd validate the codified rules against real historical PRs the engineer previously caught issues in, confirming the automation genuinely reflects their judgment before relying on it, and I'd treat 'is any critical standard living only in one person's memory' as a standing risk to actively watch for going forward."*
 
-**Full reference:** [Question 112: The policy that only existed in one person's head](../../ansible/ansible-senior-interview-preparation/interview-questions/13-governance-policy.md#question-112-the-policy-that-only-existed-in-one-persons-head) (companion Ansible repository — the identical bus-factor-in-governance lesson, applied here to Kubernetes manifest review standards)
+**Full reference:** [Question 112: The policy that only existed in one person's head](../../../ansible/ansible-senior-interview-preparation/interview-questions/13-governance-policy.md#question-112-the-policy-that-only-existed-in-one-persons-head) (companion Ansible repository — the identical bus-factor-in-governance lesson, applied here to Kubernetes manifest review standards)
 
 ---
 

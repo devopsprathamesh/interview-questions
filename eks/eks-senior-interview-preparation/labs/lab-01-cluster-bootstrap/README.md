@@ -26,7 +26,7 @@ flowchart TD
 ```
 
 ## Prerequisites
-- An EKS cluster provisioned via the companion [Terraform repository](../../../terraform/terraform-senior-interview-preparation/) (its EKS/networking labs), or an existing cluster you have admin access to
+- An EKS cluster provisioned via the companion [Terraform repository](../../../../terraform/terraform-senior-interview-preparation/) (its EKS/networking labs), or an existing cluster you have admin access to
 - `aws` CLI configured with credentials for the cluster's account
 - `kubectl` >= 1.28
 - **Cost warning**: an EKS control plane costs ~$0.10/hour regardless of node count, plus EC2/EBS costs for any node group. Budget for the full duration of working through this lab series, and tear down via the Terraform repo's `terraform destroy` when done with the whole series, not after every individual lab.

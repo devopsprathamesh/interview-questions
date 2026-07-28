@@ -38,7 +38,7 @@ The senior-level distinction to draw in an interview: EKS-managed add-ons reduce
 
 Per the companion Terraform repository's EKS module: Terraform provisions the cluster itself (control plane, associated IAM roles, the VPC and subnets, node group launch templates and their IAM roles/security groups, and EKS-managed add-ons via `aws_eks_addon`). This repository's labs assume that provisioning is already done and pick up from there — installing and configuring self-managed add-ons (Load Balancer Controller, Karpenter, ArgoCD, observability agents), designing workloads, IRSA bindings, network policies, and GitOps pipelines.
 
-The boundary in practice: if a change requires modifying the cluster's own existence, its node groups' launch template, or its VPC/subnet layout, that's a Terraform change (see the companion repo's [Lab 7](../../../terraform/terraform-senior-interview-preparation/labs/lab-07-eks-configuration/) and related AWS architecture labs). If a change is about what runs *inside* the cluster or how it's configured at the Kubernetes API level, that's this repository's concern.
+The boundary in practice: if a change requires modifying the cluster's own existence, its node groups' launch template, or its VPC/subnet layout, that's a Terraform change (see the companion repo's [Lab 7](../../../terraform/terraform-senior-interview-preparation/labs/lab-09-eks-infrastructure/) and related AWS architecture labs). If a change is about what runs *inside* the cluster or how it's configured at the Kubernetes API level, that's this repository's concern.
 
 ## 6. Where Ansible still has a role, and where it doesn't
 

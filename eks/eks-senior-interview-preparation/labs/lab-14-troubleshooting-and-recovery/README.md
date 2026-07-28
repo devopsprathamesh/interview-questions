@@ -84,7 +84,7 @@ kubectl describe pod unschedulable-pod-demo | grep -A5 Events   # after fix: sch
 Each scenario **is** the failure-injection exercise — see Step-by-Step Tasks above for each.
 
 ## Troubleshooting Exercise
-For Scenario 3, deliberately skip the systematic checklist and jump straight to "the scheduler must be broken" — then walk back through the checklist properly and find the actual, mundane cause (a resource request exceeding available capacity). Compare how much longer the "blame the platform first" approach would have taken in a real incident, reproducing [Question 103](../../interview-questions/11-ha-dr.md#question-103-the-rto-nobody-had-actually-measured) (cross-referenced) and the companion EKS repository's own postmortem-rigor Question 103.
+For Scenario 3, deliberately skip the systematic checklist and jump straight to "the scheduler must be broken" — then walk back through the checklist properly and find the actual, mundane cause (a resource request exceeding available capacity). Compare how much longer the "blame the platform first" approach would have taken in a real incident, reproducing [Question 103: The postmortem that blamed the wrong layer](../../interview-questions/11-troubleshooting.md#question-103-the-postmortem-that-blamed-the-wrong-layer) directly.
 
 ## Cleanup
 ```bash

@@ -12,8 +12,8 @@ This document tracks build progress, records assumptions, and will hold the hone
 | 4 | 120 interview questions across 15 category files | ✅ Complete |
 | 5 | Labs 1–8 (cluster bootstrap through security hardening) | ✅ Complete |
 | 6 | Labs 9–15 (observability through enterprise capstone) | ✅ Complete |
-| 7 | Mock interviews (3) and cheat sheets | ⬜ Not started |
-| 8 | Validation pass and honest final report | ⬜ Not started |
+| 7 | Mock interviews (3) and cheat sheets | ✅ Complete |
+| 8 | Validation pass and honest final report | ✅ Complete |
 
 ## Phase 1 — Repository scaffold (completed)
 
