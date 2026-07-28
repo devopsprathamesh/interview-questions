@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: latency-simulator
+spec:
+  replicas: 2
+  selector:
+    matchLabels: { app: latency-simulator }
+  template:
+    metadata:
+      labels: { app: latency-simulator }
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+    spec:
+      containers:
+        - name: app
+          image: kennethreitz/httpbin   # /delay/{n} endpoint simulates variable latency
+          ports: [{ containerPort: 80 }]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: latency-simulator
+spec:
+  selector: { app: latency-simulator }
+  ports: [{ port: 80, targetPort: 80 }]

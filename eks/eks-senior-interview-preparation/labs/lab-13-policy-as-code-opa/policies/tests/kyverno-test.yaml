@@ -1,0 +1,17 @@
+name: block-internal-facing-scheme-test
+policies:
+  - ../block-internal-facing-scheme.yaml
+resources:
+  - good-service.yaml
+  - bad-service.yaml
+results:
+  - policy: enforce-internal-only-scheme
+    rule: block-internet-facing-in-internal-namespaces
+    resource: good-internal-service
+    kind: Service
+    result: pass
+  - policy: enforce-internal-only-scheme
+    rule: block-internet-facing-in-internal-namespaces
+    resource: bad-internet-facing-service
+    kind: Service
+    result: fail

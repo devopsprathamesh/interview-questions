@@ -1,0 +1,17 @@
+# Illustrative taint/toleration pattern for a dedicated node pool - see
+# Question 55 for the full scenario this defends against.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: gpu-workload-demo
+spec:
+  tolerations:
+    - key: nvidia.com/gpu
+      operator: Exists
+      effect: NoSchedule
+  containers:
+    - name: demo
+      image: nginx:1.25
+# The corresponding node-side taint is applied via the node group's
+# own launch template / Karpenter NodePool configuration (see Lab 5),
+# not via a Kubernetes manifest - included here for reference only.

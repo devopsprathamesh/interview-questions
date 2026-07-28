@@ -1,0 +1,35 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: ebs-delete-policy
+provisioner: ebs.csi.aws.com
+volumeBindingMode: WaitForFirstConsumer
+reclaimPolicy: Delete
+parameters: { type: gp3, encrypted: "true" }
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: ebs-retain-policy
+provisioner: ebs.csi.aws.com
+volumeBindingMode: WaitForFirstConsumer
+reclaimPolicy: Retain
+parameters: { type: gp3, encrypted: "true" }
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-delete-test
+spec:
+  accessModes: ["ReadWriteOnce"]
+  storageClassName: ebs-delete-policy
+  resources: { requests: { storage: 4Gi } }
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-retain-test
+spec:
+  accessModes: ["ReadWriteOnce"]
+  storageClassName: ebs-retain-policy
+  resources: { requests: { storage: 4Gi } }

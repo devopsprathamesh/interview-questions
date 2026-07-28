@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: unschedulable-pod-demo
+spec:
+  containers:
+    - name: app
+      image: nginx:1.25
+      resources:
+        requests:
+          cpu: "64"        # deliberately exceeds any realistic node's available CPU
+          memory: "256Gi"  # deliberately exceeds any realistic node's available memory

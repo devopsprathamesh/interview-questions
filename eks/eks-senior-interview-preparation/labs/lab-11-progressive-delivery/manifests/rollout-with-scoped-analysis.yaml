@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: scoped-error-rate
+spec:
+  args:
+    - name: canary-hash
+  metrics:
+    - name: error-rate
+      interval: 30s
+      successCondition: result < 0.05
+      provider:
+        prometheus:
+          address: http://kube-prometheus-stack-prometheus.monitoring:9090
+          # FIXED: scoped to the canary's specific pod-template-hash label -
+          # measures ONLY the canary's own traffic, not diluted by stable.
+          query: |
+            sum(rate(http_requests_total{service="canary-demo",status=~"5..",rollouts_pod_template_hash="{{args.canary-hash}}"}[2m]))
+            / sum(rate(http_requests_total{service="canary-demo",rollouts_pod_template_hash="{{args.canary-hash}}"}[2m]))

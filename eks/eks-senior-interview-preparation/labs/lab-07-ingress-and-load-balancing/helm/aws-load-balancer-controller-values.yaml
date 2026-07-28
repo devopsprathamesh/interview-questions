@@ -1,0 +1,8 @@
+clusterName: my-cluster
+serviceAccount:
+  create: true
+  name: aws-load-balancer-controller
+  annotations:
+    eks.amazonaws.com/role-arn: "arn:aws:iam::ACCOUNT_ID:role/aws-load-balancer-controller-role"
+region: us-east-1
+vpcId: "" # fill in from: aws eks describe-cluster --name my-cluster --query cluster.resourcesVpcConfig.vpcId

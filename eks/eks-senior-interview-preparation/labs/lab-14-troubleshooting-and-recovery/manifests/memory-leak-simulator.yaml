@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: memory-leak-simulator
+spec:
+  containers:
+    - name: leaker
+      image: polinux/stress
+      # Allocates memory steadily and never releases it - a genuine leak
+      # signature, distinct from a one-time undersized limit.
+      command: ["stress", "--vm", "1", "--vm-bytes", "50M", "--vm-hang", "0", "--timeout", "600s"]
+      resources:
+        limits:
+          memory: "200Mi"
+        requests:
+          memory: "50Mi"

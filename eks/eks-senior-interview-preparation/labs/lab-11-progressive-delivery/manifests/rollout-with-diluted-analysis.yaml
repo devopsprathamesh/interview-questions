@@ -1,0 +1,43 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: canary-demo
+spec:
+  replicas: 10
+  selector:
+    matchLabels: { app: canary-demo }
+  template:
+    metadata:
+      labels: { app: canary-demo }
+    spec:
+      containers:
+        - name: app
+          image: nginxdemos/hello:latest
+          ports: [{ containerPort: 80 }]
+  strategy:
+    canary:
+      steps:
+        - setWeight: 10
+        - analysis:
+            templates:
+              - templateName: diluted-error-rate
+        - setWeight: 50
+        - pause: { duration: 30s }
+        - setWeight: 100
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: diluted-error-rate
+spec:
+  metrics:
+    - name: error-rate
+      interval: 30s
+      successCondition: result < 0.05
+      provider:
+        prometheus:
+          address: http://kube-prometheus-stack-prometheus.monitoring:9090
+          # BUG: unscoped, service-wide query - diluted by 90%+ healthy stable traffic
+          query: |
+            sum(rate(http_requests_total{service="canary-demo",status=~"5.."}[2m]))
+            / sum(rate(http_requests_total{service="canary-demo"}[2m]))

@@ -1,0 +1,16 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gitops-demo-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels: { app: gitops-demo-app }
+  template:
+    metadata:
+      labels: { app: gitops-demo-app }
+    spec:
+      containers:
+        - name: app
+          image: nginxdemos/hello:latest   # deliberately mutable - see Step 5/Question 93
+          ports: [{ containerPort: 80 }]

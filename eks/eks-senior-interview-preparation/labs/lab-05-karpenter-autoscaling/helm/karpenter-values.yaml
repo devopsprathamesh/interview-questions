@@ -1,0 +1,13 @@
+settings:
+  clusterName: my-cluster
+  clusterEndpoint: "" # filled from: aws eks describe-cluster --name my-cluster --query cluster.endpoint
+  interruptionQueue: "karpenter-interruption-queue"
+
+serviceAccount:
+  annotations:
+    eks.amazonaws.com/role-arn: "arn:aws:iam::ACCOUNT_ID:role/karpenter-controller-role"
+
+controller:
+  resources:
+    requests: { cpu: 500m, memory: 512Mi }
+    limits: { cpu: 1, memory: 1Gi }

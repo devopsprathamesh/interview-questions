@@ -1,0 +1,16 @@
+driver:
+  kind: ebpf
+
+falco:
+  jsonOutput: true
+  rules_file:
+    - /etc/falco/falco_rules.yaml
+    - /etc/falco/falco_rules.local.yaml
+
+customRules:
+  lab08-rules.yaml: |-
+    - rule: Shell spawned in hardened test pod
+      desc: Detect a shell process spawned inside the lab08 hardened pod
+      condition: spawned_process and container and container.name = "app" and proc.name in (bash, sh)
+      output: "Shell spawned in container (user=%user.name container=%container.name shell=%proc.name)"
+      priority: WARNING

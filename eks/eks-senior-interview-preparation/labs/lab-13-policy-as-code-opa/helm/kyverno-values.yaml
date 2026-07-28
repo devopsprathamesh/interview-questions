@@ -1,0 +1,8 @@
+admissionController:
+  replicas: 2
+  resources:
+    requests: { cpu: 100m, memory: 128Mi }
+    limits: { cpu: 500m, memory: 512Mi }
+
+# failurePolicy is set per-policy (see policies/block-internal-facing-scheme.yaml),
+# not globally here - see Question 33/115's failurePolicy trade-off discussion.

@@ -1,0 +1,46 @@
+name: Build, Sign, and Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-sign-deploy:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: deploy-production
+      cancel-in-progress: false   # queue, never interleave - see Question 95
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Lint manifests
+        run: |
+          pip install yamllint
+          yamllint manifests/
+
+      - name: Build and push image
+        id: build
+        run: |
+          docker build -t my-registry/my-app:${{ github.sha }} .
+          docker push my-registry/my-app:${{ github.sha }}
+          DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' my-registry/my-app:${{ github.sha }})
+          echo "digest=$DIGEST" >> "$GITHUB_OUTPUT"
+
+      - name: Scan image
+        run: trivy image my-registry/my-app@${{ steps.build.outputs.digest }}
+
+      - name: Sign image
+        run: cosign sign --key cosign.key my-registry/my-app@${{ steps.build.outputs.digest }}
+        env:
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+
+      - name: Policy test
+        run: kyverno test policies/
+
+      - name: Commit digest to GitOps repo (SAME run, no separate race-prone step)
+        run: |
+          sed -i "s|image:.*|image: ${{ steps.build.outputs.digest }}|" manifests/app-deployment-template.yaml
+          git config user.name "ci-bot"
+          git config user.email "ci-bot@example.com"
+          git commit -am "Deploy ${{ steps.build.outputs.digest }}"
+          git push

@@ -1,0 +1,22 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: enforce-internal-only-scheme
+spec:
+  validationFailureAction: Audit   # start in audit mode - see README Step 3
+  failurePolicy: Fail               # see Step 7 - the availability/security trade-off
+  rules:
+    - name: block-internet-facing-in-internal-namespaces
+      match:
+        any:
+          - resources:
+              kinds: [Service]
+              namespaceSelector:
+                matchLabels:
+                  network-exposure: internal-only
+      validate:
+        message: "internet-facing load balancer scheme is not allowed in internal-only namespaces"
+        pattern:
+          metadata:
+            annotations:
+              =(service.beta.kubernetes.io/aws-load-balancer-scheme): "internal"

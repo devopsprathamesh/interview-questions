@@ -1,0 +1,15 @@
+# A pending pod requesting a GPU resource, with deliberately NO matching
+# NodePool in this lab (only "general-purpose" from nodepool-general.yaml
+# exists, which permits only m5/m6i - no GPU-capable family) - reproduces
+# Question 36's exact scenario.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: gpu-pending-test
+spec:
+  containers:
+    - name: demo
+      image: nginx:1.25
+      resources:
+        limits:
+          nvidia.com/gpu: 1

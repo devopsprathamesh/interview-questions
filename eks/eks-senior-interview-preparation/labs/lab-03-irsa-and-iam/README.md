@@ -48,7 +48,7 @@ lab-03-irsa-and-iam/
 4. Update the IAM role's trust policy to `iam/trust-policy-FIXED.json` (adding the `sub`/`aud` condition scoped to the specific namespace/ServiceAccount).
 5. Re-run both test pods — confirm the intended pod still works, and the unintended pod now gets `AccessDenied`.
 
-## Kubernetes/IAM Configuration
+## Kubernetes Configuration
 See [`iam/`](iam/) and [`manifests/`](manifests/).
 
 ## Commands to Execute

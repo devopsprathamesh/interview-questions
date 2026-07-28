@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: p99-latency-alert
+  namespace: monitoring
+  labels:
+    release: kube-prometheus-stack
+spec:
+  groups:
+    - name: latency-simulator
+      rules:
+        - alert: P99LatencyElevated
+          expr: |
+            histogram_quantile(0.99, rate(http_request_duration_seconds_bucket{job="latency-simulator"}[5m])) > 2
+          for: 2m
+          labels:
+            severity: warning
+          annotations:
+            summary: "P99 latency elevated - a P50-only alert would have missed this"

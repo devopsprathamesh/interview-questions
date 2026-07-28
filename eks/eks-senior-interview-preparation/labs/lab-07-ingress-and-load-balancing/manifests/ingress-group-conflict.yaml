@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: team-a-ingress
+  annotations:
+    alb.ingress.kubernetes.io/group.name: shared-alb
+    # No group.order set - ambiguous priority relative to team-b-ingress below
+spec:
+  rules:
+    - host: api.example.com
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service: { name: crash-test-service, port: { number: 80 } }
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: team-b-ingress
+  annotations:
+    alb.ingress.kubernetes.io/group.name: shared-alb
+    # Also no group.order - overlapping /api/v2 vs /api creates ambiguous precedence
+spec:
+  rules:
+    - host: api.example.com
+      http:
+        paths:
+          - path: /api/v2
+            pathType: Prefix
+            backend:
+              service: { name: crash-test-service, port: { number: 80 } }

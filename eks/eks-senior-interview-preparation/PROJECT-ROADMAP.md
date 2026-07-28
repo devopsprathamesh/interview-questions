@@ -10,8 +10,8 @@ This document tracks build progress, records assumptions, and will hold the hone
 | 2 | Core documentation (`docs/`) | ✅ Complete |
 | 3 | Diagrams (15 Mermaid diagrams) | ✅ Complete |
 | 4 | 120 interview questions across 15 category files | ✅ Complete |
-| 5 | Labs 1–8 (cluster bootstrap through security hardening) | ⬜ Not started |
-| 6 | Labs 9–15 (observability through enterprise capstone) | ⬜ Not started |
+| 5 | Labs 1–8 (cluster bootstrap through security hardening) | ✅ Complete |
+| 6 | Labs 9–15 (observability through enterprise capstone) | ✅ Complete |
 | 7 | Mock interviews (3) and cheat sheets | ⬜ Not started |
 | 8 | Validation pass and honest final report | ⬜ Not started |
 
@@ -51,7 +51,7 @@ Wrote all 15 category files in `interview-questions/`, totaling exactly 120 ques
 | 14 | `14-governance-policy.md` | Governance and policy as code (OPA/Kyverno) | 3 | 115–117 |
 | 15 | `15-migration-leadership.md` | Migration, adoption, and leadership/architecture | 3 | 118–120 |
 
-Progress: **0 / 120 questions written** as of this roadmap entry (Phase 4 starting next).
+Progress: **120 / 120 questions written** (mechanically verified via `grep -c "^## Question "` summed across all 15 files).
 
 ## Lab Dependency Summary
 
@@ -68,32 +68,38 @@ See the Mermaid diagram in `README.md`. Labs 1–4 form the mandatory core path 
 
 | # | Diagram | Status |
 |---|---|---|
-| 1 | EKS Control Plane and Data Plane Architecture | ⬜ |
-| 2 | Pod Networking and VPC CNI ENI Allocation | ⬜ |
-| 3 | Request Path: Ingress → Load Balancer → Service → Pod | ⬜ |
-| 4 | IRSA Trust Chain (OIDC Provider → IAM Role → ServiceAccount → Pod) | ⬜ |
-| 5 | Managed Node Group Lifecycle | ⬜ |
-| 6 | Karpenter Provisioning Decision Flow | ⬜ |
-| 7 | EBS/EFS CSI Volume Lifecycle | ⬜ |
-| 8 | Pod Admission Flow (Pod Security, OPA/Kyverno, Mutating/Validating Webhooks) | ⬜ |
-| 9 | Cluster/Add-on Upgrade Sequencing | ⬜ |
-| 10 | Observability Data Flow (Container Insights, Prometheus, Fluent Bit) | ⬜ |
-| 11 | GitOps Reconciliation Loop (ArgoCD) | ⬜ |
-| 12 | Progressive Delivery (Canary/Blue-Green via Argo Rollouts) | ⬜ |
-| 13 | CI/CD Pipeline for Kubernetes Manifests | ⬜ |
-| 14 | Multi-AZ / Multi-Region HA and DR Topology | ⬜ |
-| 15 | Multi-Tenant Cluster Isolation Model | ⬜ |
+| 1 | EKS Control Plane and Data Plane Architecture | ✅ |
+| 2 | Pod Networking and VPC CNI ENI Allocation | ✅ |
+| 3 | Request Path: Ingress → Load Balancer → Service → Pod | ✅ |
+| 4 | IRSA Trust Chain (OIDC Provider → IAM Role → ServiceAccount → Pod) | ✅ |
+| 5 | Managed Node Group Lifecycle | ✅ |
+| 6 | Karpenter Provisioning Decision Flow | ✅ |
+| 7 | EBS/EFS CSI Volume Lifecycle | ✅ |
+| 8 | Pod Admission Flow (Pod Security, OPA/Kyverno, Mutating/Validating Webhooks) | ✅ |
+| 9 | Cluster/Add-on Upgrade Sequencing | ✅ |
+| 10 | Observability Data Flow (Container Insights, Prometheus, Fluent Bit) | ✅ |
+| 11 | GitOps Reconciliation Loop (ArgoCD) | ✅ |
+| 12 | Progressive Delivery (Canary/Blue-Green via Argo Rollouts) | ✅ |
+| 13 | CI/CD Pipeline for Kubernetes Manifests | ✅ |
+| 14 | Multi-AZ / Multi-Region HA and DR Topology | ✅ |
+| 15 | Multi-Tenant Cluster Isolation Model | ✅ |
+
+## Phase 5–6 — Labs 1–15 (completed)
+
+Built all 15 labs with real, runnable Kubernetes manifests, Helm values, Kustomize overlays, and CI workflows — not just narrative READMEs. Every lab's `README.md` follows the identical 17-section structure established by the Terraform and Ansible companion repositories (verified mechanically: 255/255 required sections present across all 15 labs). Each lab is designed around reproducing a *specific* interview-question scenario hands-on (e.g., Lab 3 deliberately builds a broken IRSA trust policy, proves the vulnerability with a real `AssumeRoleWithWebIdentity` call, then fixes it and re-proves the fix — not just describing the concept). Labs reference and build on each other in dependency order (per the Lab Dependency Map in `README.md`), and the capstone (Lab 15) composes components from Labs 3, 5–11, and 13 into one working platform with its own `OPERATIONS.md` deliverable.
+
+**Honesty note:** no live EKS cluster, `kubectl`, `helm`, `argocd`, `eksctl`, or `kyverno` CLI was available in this build environment. Every manifest, Helm values file, Kustomize overlay, and shell script was written to be syntactically correct and logically sound through careful manual construction, but none of it has been applied against a real cluster. A learner working through these labs will be the first to actually run this content — this mirrors the identical, honestly-reported constraint in the companion Ansible repository's Phase 5–6.
 
 ## Provisional Topic Index
 
-Will be filled in during Phase 7 as part of the interview cheat sheet, mapping each doc/lab/diagram to the question numbers that reference it — mirrors `docs/interview-cheatsheet.md` in both companion repositories.
+See `docs/interview-cheatsheet.md`'s topic → doc → questions → lab table, filled in during Phase 2/3 and cross-checked against the final question/lab set during Phase 7.
 
 ## Definition of Done
 
-- [ ] All 120 questions written, following the established 10-part format (Scenario, Interview Question, Strong Senior-Level Answer with 8 bolded sub-labels, Step-by-Step Implementation, Under-the-Hood Explanation, Common Weak Answer, Why the Weak Answer Fails, 3 Follow-Up Questions, Key Interview Signals, Hands-On Connection)
-- [ ] All 15 labs complete with the full required README structure
-- [ ] All 15 diagrams present and valid Mermaid syntax
-- [ ] 3 mock interviews complete with rubrics
-- [ ] All cheat sheets written
-- [ ] CI/CD reference pipeline and policy-as-code examples in place
+- [x] All 120 questions written, following the established 10-part format (Scenario, Interview Question, Strong Senior-Level Answer with 8 bolded sub-labels, Step-by-Step Implementation, Under-the-Hood Explanation, Common Weak Answer, Why the Weak Answer Fails, 3 Follow-Up Questions, Key Interview Signals, Hands-On Connection) — mechanically verified, exactly 120
+- [x] All 15 labs complete with the full required README structure — mechanically verified, 255/255 required sections present
+- [x] All 15 diagrams present (mechanically verified: fenced `mermaid` blocks present in all 15 files; not rendered through an actual Mermaid engine, no such tool available in this environment)
+- [ ] 3 mock interviews complete with rubrics — Phase 7, next
+- [ ] All cheat sheets written — Phase 7, next
+- [x] CI/CD reference pipeline and policy-as-code examples in place (Labs 12–13)
 - [ ] Phase 8 validation performed and honestly reported (link integrity, YAML/manifest syntax sanity, question-count verification, lab-section completeness, tool-availability caveats)

@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: statefulset-with-data
+spec:
+  serviceName: statefulset-with-data
+  replicas: 1
+  selector:
+    matchLabels: { app: statefulset-with-data }
+  template:
+    metadata:
+      labels: { app: statefulset-with-data }
+    spec:
+      containers:
+        - name: app
+          image: busybox
+          command: ["sleep", "infinity"]
+          volumeMounts:
+            - name: data
+              mountPath: /data
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: ebs-wffc
+        resources: { requests: { storage: 2Gi } }

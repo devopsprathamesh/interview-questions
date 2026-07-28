@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-with-crash-endpoint
+spec:
+  replicas: 3
+  selector:
+    matchLabels: { app: crash-test }
+  template:
+    metadata:
+      labels: { app: crash-test }
+    spec:
+      containers:
+        - name: app
+          image: nginxdemos/hello:latest   # serves a distinct hostname per pod for observability
+          ports: [{ containerPort: 80 }]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: crash-test-service
+spec:
+  selector: { app: crash-test }
+  ports: [{ port: 80, targetPort: 80 }]
+  type: NodePort

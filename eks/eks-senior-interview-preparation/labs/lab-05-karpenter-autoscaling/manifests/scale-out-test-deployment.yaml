@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scale-out-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: scale-out-test }
+  template:
+    metadata:
+      labels: { app: scale-out-test }
+    spec:
+      containers:
+        - name: pause
+          image: registry.k8s.io/pause:3.9
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
