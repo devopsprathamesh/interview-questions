@@ -1,0 +1,26 @@
+---
+- name: Harden sudo access
+  hosts: all
+  become: true
+  tags: harden_sudo
+  roles:
+    - harden_sudo
+
+- name: Demonstrate no_log's actual scope against a failure path
+  hosts: all
+  gather_facts: false
+  tags: no_log_test
+  tasks:
+    - name: A task with a secret, deliberately failing (checking whether the error path leaks it)
+      ansible.builtin.uri:
+        url: "http://localhost:1/nonexistent"
+        headers:
+          Authorization: "Bearer super-secret-token-abc123"
+        timeout: 2
+      no_log: true
+      register: result
+      ignore_errors: true
+
+    - name: Show whatever WAS captured (for inspection - this task is NOT no_log'd)
+      ansible.builtin.debug:
+        var: result

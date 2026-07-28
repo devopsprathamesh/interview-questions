@@ -1,0 +1,14 @@
+---
+- name: Bootstrap Python on the target container (ubuntu:22.04 has no python3 by default)
+  hosts: webservers
+  gather_facts: false
+  tasks:
+    - name: Ensure python3 is present (raw, since no interpreter exists yet)
+      ansible.builtin.raw: test -e /usr/bin/python3 || (apt-get update && apt-get install -y python3)
+      changed_when: false
+
+- name: Configure a minimal web server
+  hosts: webservers
+  gather_facts: true
+  roles:
+    - webserver

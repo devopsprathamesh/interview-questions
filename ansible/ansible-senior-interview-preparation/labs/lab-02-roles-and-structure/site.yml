@@ -1,0 +1,6 @@
+---
+- name: Configure a validated, structured web server role
+  hosts: webservers
+  gather_facts: true
+  roles:
+    - webserver

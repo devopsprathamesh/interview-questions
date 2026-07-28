@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pod-unintended
+  namespace: default
+spec:
+  serviceAccountName: unintended-sa
+  containers:
+    - name: aws-cli
+      image: amazon/aws-cli:latest
+      command: ["sleep", "3600"]
+      env:
+        - name: TARGET_ROLE_ARN
+          value: "arn:aws:iam::ACCOUNT_ID:role/lab03-s3-reader"
+      volumeMounts:
+        - name: aws-token
+          mountPath: /var/run/secrets/sts.amazonaws.com/serviceaccount
+  volumes:
+    - name: aws-token
+      projected:
+        sources:
+          - serviceAccountToken:
+              audience: sts.amazonaws.com
+              expirationSeconds: 86400
+              path: token
+# Manual test (run inside the pod, per README Step 3):
+#   aws sts assume-role-with-web-identity \
+#     --role-arn $TARGET_ROLE_ARN \
+#     --role-session-name unintended-test \
+#     --web-identity-token file:///var/run/secrets/sts.amazonaws.com/serviceaccount/token

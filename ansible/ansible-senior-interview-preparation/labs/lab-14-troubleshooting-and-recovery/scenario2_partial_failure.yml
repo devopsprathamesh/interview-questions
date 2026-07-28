@@ -1,0 +1,7 @@
+---
+- name: Scenario 2 - a partial fleet failure and the .retry file's limited coverage
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: A trivial task (succeeds on localhost, times out on the unreachable host)
+      ansible.builtin.ping:

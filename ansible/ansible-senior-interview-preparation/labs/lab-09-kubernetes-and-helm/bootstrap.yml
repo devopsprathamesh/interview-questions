@@ -1,0 +1,55 @@
+---
+- name: One-time cluster bootstrap - never re-run after GitOps handoff
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    kube_context: "kind-ansible-lab09"
+  tasks:
+    - name: Bootstrap ingress-nginx via Helm (one-time)
+      kubernetes.core.helm:
+        name: ingress-nginx
+        chart_ref: ingress-nginx
+        chart_repo_url: https://kubernetes.github.io/ingress-nginx
+        release_namespace: ingress-nginx
+        create_namespace: true
+        context: "{{ kube_context }}"
+
+    - name: Apply internal-tool Deployment (server-side apply for correct idempotency)
+      kubernetes.core.k8s:
+        state: present
+        src: manifests/internal-tool-deployment.yml
+        apply: true
+        context: "{{ kube_context }}"
+
+    - name: Trigger a one-off migration Job (idempotent - checks for existing completion first)
+      kubernetes.core.k8s:
+        state: present
+        context: "{{ kube_context }}"
+        definition:
+          apiVersion: batch/v1
+          kind: Job
+          metadata:
+            name: lab09-migration
+            namespace: default
+          spec:
+            backoffLimit: 2
+            template:
+              spec:
+                restartPolicy: Never
+                containers:
+                  - name: migrate
+                    image: busybox
+                    command: ["sh", "-c", "echo migration complete"]
+
+    - name: Wait for the migration Job to complete
+      kubernetes.core.k8s_info:
+        api_version: batch/v1
+        kind: Job
+        name: lab09-migration
+        namespace: default
+        context: "{{ kube_context }}"
+      register: job_status
+      until: job_status.resources[0].status.succeeded is defined
+      retries: 10
+      delay: 5

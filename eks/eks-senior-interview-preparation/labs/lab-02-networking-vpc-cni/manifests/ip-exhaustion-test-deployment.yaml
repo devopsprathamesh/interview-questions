@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ip-exhaustion-test
+  namespace: default
+spec:
+  replicas: 40   # deliberately scaled beyond a small instance type's typical pod-IP capacity
+  selector:
+    matchLabels:
+      app: ip-exhaustion-test
+  template:
+    metadata:
+      labels:
+        app: ip-exhaustion-test
+    spec:
+      containers:
+        - name: pause
+          image: registry.k8s.io/pause:3.9
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi

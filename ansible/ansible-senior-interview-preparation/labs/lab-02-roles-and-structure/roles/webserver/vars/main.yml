@@ -1,0 +1,7 @@
+---
+# Role-internal constants, not meant for consumers to override casually.
+# Higher precedence than defaults/ - see docs/role-design.md §1.
+webserver_package_by_os_family:
+  Debian: nginx
+  RedHat: nginx
+webserver_package: "{{ webserver_package_by_os_family[ansible_facts['os_family']] | default('nginx') }}"

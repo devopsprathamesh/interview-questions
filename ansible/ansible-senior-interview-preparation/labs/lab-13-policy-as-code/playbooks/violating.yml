@@ -1,0 +1,8 @@
+---
+- name: A playbook with a genuine security-policy violation
+  hosts: all
+  tasks:
+    - name: Disable the firewall entirely (the violation)
+      ansible.posix.firewalld:
+        state: disabled
+        permanent: true

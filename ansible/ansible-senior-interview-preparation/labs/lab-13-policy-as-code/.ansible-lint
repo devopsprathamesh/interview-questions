@@ -1,0 +1,3 @@
+---
+warn_list:
+  - no-firewall-disable   # audit mode first - move to full enforcement after validation

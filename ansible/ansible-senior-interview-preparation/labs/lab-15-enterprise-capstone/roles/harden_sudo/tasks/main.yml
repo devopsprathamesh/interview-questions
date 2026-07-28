@@ -1,0 +1,13 @@
+---
+- name: Ensure automation_user exists
+  ansible.builtin.user:
+    name: automation_user
+    state: present
+
+- name: Deploy scoped, passwordless sudoers entry
+  ansible.builtin.copy:
+    dest: /etc/sudoers.d/ansible-automation
+    mode: "0440"
+    validate: "visudo -cf %s"
+    content: |
+      automation_user ALL=(root) NOPASSWD: /usr/bin/systemctl restart nginx, /usr/bin/apt-get install *

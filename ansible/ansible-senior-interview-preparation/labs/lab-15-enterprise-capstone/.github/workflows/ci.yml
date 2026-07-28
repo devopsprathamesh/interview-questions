@@ -1,0 +1,41 @@
+name: Capstone CI/CD
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  syntax-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install ansible-core
+      - run: ansible-playbook site.yml --syntax-check
+
+  lint:
+    needs: syntax-check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install ansible-lint yamllint
+      - run: ansible-lint .
+      - run: yamllint .
+
+  deploy-dev:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "would run against environments/dev - no approval needed"
+
+  deploy-production:
+    needs: deploy-dev
+    runs-on: ubuntu-latest
+    environment: production   # requires manual approval
+    concurrency:
+      group: deploy-production
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "would run against environments/production with -e target_env_confirm=yes-production"

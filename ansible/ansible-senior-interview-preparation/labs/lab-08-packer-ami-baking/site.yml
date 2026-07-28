@@ -1,0 +1,7 @@
+---
+- name: Bake the golden AMI's configuration (runs against Packer's temporary builder instance)
+  hosts: all
+  become: true
+  roles:
+    - security_baseline
+    - webserver

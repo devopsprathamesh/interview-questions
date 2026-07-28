@@ -1,0 +1,39 @@
+---
+# DR RECOVERY PLAYBOOK
+#
+# Purpose: fully re-converge a target environment's configuration from
+# scratch (e.g., after launching brand-new replacement hosts during a
+# recovery event).
+#
+# IMPORTANT - read this before running, especially if you've never run
+# this playbook before (per Category 11's Question 108 - this playbook
+# is deliberately written to be usable by someone unfamiliar with it):
+#
+#   1. This playbook handles CONFIGURATION recovery only. It does NOT
+#      restore any application data/database state - see Question 101.
+#      If the incident involves data loss, that requires a SEPARATE,
+#      database-specific backup/restore process not covered here.
+#
+#   2. Run this against the SAME environment's inventory the incident
+#      affected (e.g., `-i environments/production/hosts.ini`), with the
+#      SAME production confirmation flag `site.yml` requires:
+#      `ansible-playbook dr-recovery.yml -i environments/production/hosts.ini \
+#         -e target_env_confirm=yes-production \
+#         --vault-id production@scripts/vault-password-production.sh`
+#
+#   3. This playbook is IDENTICAL in effect to running site.yml - DR
+#      recovery for configuration-management purposes is simply "run the
+#      same playbook again against the replacement hosts." There is no
+#      separate, different "recovery mode" - this file exists specifically
+#      to make that fact explicit and documented, not buried in tribal
+#      knowledge (Question 108's exact lesson).
+#
+#   4. After running, validate per the README's "Validation" section
+#      before considering recovery complete.
+#
+#   5. Record how long this actually took (start-to-finish, real wall
+#      clock) and compare against any previously-documented RTO for this
+#      environment - update the documented RTO if it's stale (Question 103).
+
+- name: DR Recovery - re-converge configuration on replacement hosts
+  ansible.builtin.import_playbook: site.yml

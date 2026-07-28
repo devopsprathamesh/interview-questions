@@ -1,0 +1,21 @@
+---
+- name: Guard against a zero-host or unexpectedly small match before doing anything
+  hosts: localhost
+  gather_facts: false
+  connection: local
+  tasks:
+    # Uncomment to reproduce the Troubleshooting Exercise's fix:
+    # - name: Fail fast if the target group is empty
+    #   ansible.builtin.assert:
+    #     that: groups['tag_Role_webserver'] | default([]) | length > 0
+    #     fail_msg: "tag_Role_webserver matched zero hosts - check tags/filters before proceeding"
+    - name: No-op placeholder
+      ansible.builtin.debug:
+        msg: "Guard placeholder - see comment above"
+
+- name: Ping every resolved host in the target group
+  hosts: tag_Role_webserver
+  gather_facts: false
+  tasks:
+    - name: Ping
+      ansible.builtin.ping:

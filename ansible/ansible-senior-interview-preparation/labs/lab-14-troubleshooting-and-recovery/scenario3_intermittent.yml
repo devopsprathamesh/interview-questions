@@ -1,0 +1,13 @@
+---
+- name: Scenario 3 - a simulated intermittent, race-condition-like failure
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Simulate an operation that fails roughly 20% of the time
+      ansible.builtin.command: >-
+        python3 -c "import random,sys; sys.exit(1 if random.random() < 0.2 else 0)"
+      changed_when: false
+      # In a real incident: capture -vvv output and this task's exact failure
+      # BEFORE retrying, per Question 98 - retrying immediately discards the
+      # only evidence that could reveal the actual root cause.

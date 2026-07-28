@@ -1,0 +1,6 @@
+---
+- name: Configure web server (CI-validated before this ever reaches production)
+  hosts: all
+  become: true
+  roles:
+    - webserver

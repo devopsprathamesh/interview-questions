@@ -1,0 +1,48 @@
+---
+- name: Broken rescue - swallows ANY failure, not just the expected one
+  hosts: all
+  gather_facts: false
+  tags: broken_rescue
+  tasks:
+    - block:
+        - name: Simulate a package install that fails for an UNEXPECTED reason
+          ansible.builtin.fail:
+            msg: "disk full - cannot write package cache"
+      rescue:
+        - name: Silently continue regardless of WHY it failed (the bug)
+          ansible.builtin.debug:
+            msg: "Recovered, continuing... (but we never checked what actually failed)"
+
+- name: Fixed rescue - only continues for the SPECIFIC expected failure
+  hosts: all
+  gather_facts: false
+  tags: fixed_rescue
+  tasks:
+    - block:
+        - name: Simulate a package install that fails for an UNEXPECTED reason
+          ansible.builtin.fail:
+            msg: "disk full - cannot write package cache"
+      rescue:
+        - name: Only continue gracefully for the specific, expected mirror-timeout failure
+          ansible.builtin.fail:
+            msg: "Unexpected failure during package install: {{ ansible_failed_result.msg }}"
+          when: "'mirror timeout' not in (ansible_failed_result.msg | default(''))"
+        - name: Genuinely expected case - log and continue
+          ansible.builtin.debug:
+            msg: "Expected, retryable mirror timeout - continuing gracefully"
+          when: "'mirror timeout' in (ansible_failed_result.msg | default(''))"
+
+- name: Safe refactor demo - preview before applying
+  hosts: all
+  gather_facts: false
+  tags: safe_refactor
+  tasks:
+    - name: A "risky" change - always preview with --check --diff first
+      ansible.builtin.copy:
+        content: "refactored config content\n"
+        dest: /tmp/lab06-refactor-target.txt
+      register: refactor_result
+
+    - name: Show what changed
+      ansible.builtin.debug:
+        var: refactor_result.changed

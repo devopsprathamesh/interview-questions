@@ -1,0 +1,20 @@
+---
+- name: Guard against accidental production targeting
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Require explicit confirmation before targeting production
+      ansible.builtin.assert:
+        that: target_env_confirm | default('') == 'yes-production'
+        fail_msg: >-
+          Targeting production requires -e target_env_confirm=yes-production.
+      when: "'production' in (inventory_dir | default(''))"
+
+- name: Configure the full platform - security baseline, hardened sudo, web server
+  hosts: webservers
+  become: true
+  roles:
+    - security_baseline
+    - harden_sudo
+    - webserver

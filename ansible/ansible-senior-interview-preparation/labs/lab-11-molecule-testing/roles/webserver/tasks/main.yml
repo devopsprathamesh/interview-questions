@@ -1,0 +1,37 @@
+---
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: Install nginx
+  ansible.builtin.package:
+    name: nginx
+    state: present
+
+- name: Ensure docroot exists
+  ansible.builtin.file:
+    path: "{{ webserver_docroot }}"
+    state: directory
+    mode: "0755"
+
+- name: Template the index page
+  ansible.builtin.template:
+    src: index.html.j2
+    dest: "{{ webserver_docroot }}/index.html"
+    mode: "0644"
+  notify: restart nginx
+
+- name: Configure listen port
+  ansible.builtin.lineinfile:
+    path: /etc/nginx/sites-available/default
+    regexp: '^\s*listen\s+[0-9]+'
+    line: "    listen {{ webserver_port }};"
+  notify: restart nginx
+
+- name: Ensure nginx is started and enabled
+  ansible.builtin.service:
+    name: nginx
+    state: started
+    enabled: true

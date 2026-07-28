@@ -1,0 +1,43 @@
+# Kubernetes / EKS
+kubeconfig
+kubeconfig.*
+*.kubeconfig
+.kube/
+
+# AWS
+.aws/
+*credentials*
+*.pem
+*.key
+
+# Terraform (if used locally to provision lab clusters)
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+
+# Helm
+charts/**/charts/
+charts/**/*.tgz
+
+# ArgoCD / GitOps local state
+.argocd/
+
+# OS / editor junk
+.DS_Store
+*.swp
+*~
+
+# Lint/test report artifacts
+*-report.json
+*-report.xml
+.pytest_cache/
+__pycache__/
+*.pyc
+
+# Secrets - never commit real values
+secrets.yaml
+*-secret.yaml
+!*-secret.example.yaml
+sealed-secrets-key.yaml

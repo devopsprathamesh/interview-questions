@@ -1,0 +1,13 @@
+---
+- name: Demonstrate vault-encrypted variable usage per environment
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - "group_vars/{{ target_env }}/vault.yml"
+  tasks:
+    - name: Render a config summary containing the vault-decrypted secret
+      ansible.builtin.copy:
+        content: "db_password={{ db_password }}\n"
+        dest: "/tmp/lab04-{{ target_env }}-config.txt"
+      # no_log: true   # uncomment per the Failure Injection exercise

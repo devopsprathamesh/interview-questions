@@ -1,0 +1,15 @@
+---
+argument_specs:
+  main:
+    short_description: Configure a minimal, validated nginx web server
+    options:
+      webserver_port:
+        type: int
+        required: false
+        default: 80
+        description: TCP port nginx listens on
+      webserver_docroot:
+        type: str
+        required: false
+        default: /var/www/html
+        description: Document root directory

@@ -1,0 +1,24 @@
+---
+- name: Verify the golden AMI baked correctly - no post-boot configuration should be needed
+  hosts: all
+  become: true
+  tasks:
+    - name: Check nginx is already installed
+      ansible.builtin.command: rpm -q nginx
+      register: nginx_check
+      changed_when: false
+
+    - name: Assert nginx is present
+      ansible.builtin.assert:
+        that: nginx_check.rc == 0
+        fail_msg: "nginx not found - the AMI bake did not include it"
+
+    - name: Check SSH hardening is present
+      ansible.builtin.command: grep -q "PermitRootLogin no" /etc/ssh/sshd_config
+      register: ssh_check
+      changed_when: false
+
+    - name: Assert SSH hardening is present
+      ansible.builtin.assert:
+        that: ssh_check.rc == 0
+        fail_msg: "SSH hardening not found - the AMI bake did not include it"

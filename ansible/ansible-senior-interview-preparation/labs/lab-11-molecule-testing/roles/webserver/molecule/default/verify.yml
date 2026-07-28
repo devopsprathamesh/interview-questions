@@ -1,0 +1,22 @@
+---
+- name: Verify - genuine functional check, not just service status
+  hosts: all
+  become: true
+  tasks:
+    - name: Check nginx process is running (shallow check - necessary but not sufficient)
+      ansible.builtin.service_facts:
+
+    - name: Assert nginx service is running
+      ansible.builtin.assert:
+        that: "'nginx.service' in ansible_facts.services and ansible_facts.services['nginx.service'].state == 'running'"
+
+    - name: Make an ACTUAL HTTP request to confirm nginx genuinely serves content
+      ansible.builtin.uri:
+        url: http://localhost:80/
+        return_content: true
+      register: http_check
+
+    - name: Assert the response actually contains our templated content
+      ansible.builtin.assert:
+        that: "'Molecule test target' in http_check.content"
+        fail_msg: "nginx is running but not serving the expected content - a shallow service-status check would have missed this"

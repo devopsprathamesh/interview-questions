@@ -1,0 +1,19 @@
+---
+- name: Guard against accidental production targeting
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Require explicit confirmation before targeting production's inventory
+      ansible.builtin.assert:
+        that: target_env_confirm | default('') == 'yes-production'
+        fail_msg: >-
+          Targeting production requires -e target_env_confirm=yes-production.
+          This is deliberate friction - see Question 16 (the -e nobody remembered setting).
+      when: "'production' in (inventory_dir | default(''))"
+
+- name: Configure web server (identical role, per-environment vars)
+  hosts: webservers
+  gather_facts: true
+  roles:
+    - webserver

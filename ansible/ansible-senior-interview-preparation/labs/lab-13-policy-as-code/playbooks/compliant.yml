@@ -1,0 +1,14 @@
+---
+- name: A compliant playbook - firewalld used correctly, never disabled
+  hosts: all
+  tasks:
+    - name: Ensure the firewall is enabled and running
+      ansible.posix.firewalld:
+        state: enabled
+        permanent: true
+
+    - name: Allow the http service through the firewall
+      ansible.posix.firewalld:
+        service: http
+        permanent: true
+        state: enabled

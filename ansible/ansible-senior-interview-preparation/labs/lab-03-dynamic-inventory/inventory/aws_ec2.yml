@@ -1,0 +1,18 @@
+---
+plugin: amazon.aws.aws_ec2
+regions:
+  - us-east-1
+filters:
+  instance-state-name: running
+  tag:Project: ansible-senior-interview-prep
+# cache: true
+# cache_plugin: jsonfile
+# cache_connection: /tmp/ansible_inventory_cache
+# cache_timeout: 300
+keyed_groups:
+  - key: tags.Environment
+    prefix: tag_Environment
+  - key: tags.Role
+    prefix: tag_Role
+compose:
+  ansible_host: private_ip_address

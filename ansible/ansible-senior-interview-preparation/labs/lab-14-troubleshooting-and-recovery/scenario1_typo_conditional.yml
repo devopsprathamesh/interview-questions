@@ -1,0 +1,23 @@
+---
+- name: Scenario 1 - the conditional with a typo'd variable name
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    # Uncomment to add the fix's guard:
+    # - name: Verify environment is correctly defined before conditional hardening
+    #   ansible.builtin.assert:
+    #     that:
+    #       - environment is defined
+    #       - environment in ['dev', 'staging', 'production']
+    #     fail_msg: "environment must be defined and valid - check for typos in referencing tasks"
+
+    - name: Apply security hardening (TYPO - "evironment" not "environment" - silently skips!)
+      ansible.builtin.debug:
+        msg: "Security hardening applied"
+      when: evironment == "production"
+
+    - name: Apply security hardening (FIXED - correct spelling)
+      ansible.builtin.debug:
+        msg: "Security hardening applied"
+      when: environment | default('') == "production"

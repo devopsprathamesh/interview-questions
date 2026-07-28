@@ -1,0 +1,50 @@
+name: Ansible CI/CD
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  syntax-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Ansible
+        run: pip install ansible-core
+      - name: Syntax check (fast, first-line gate - structural validity only)
+        run: ansible-playbook site.yml --syntax-check
+
+  lint:
+    needs: syntax-check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install lint tools
+        run: pip install ansible-lint yamllint
+      - name: ansible-lint
+        run: ansible-lint .
+      - name: yamllint
+        run: yamllint .
+
+  molecule-test:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Molecule
+        run: pip install molecule molecule-plugins[docker] ansible-core
+      - name: Run Molecule test
+        run: cd roles/webserver && molecule test
+
+  deploy:
+    needs: molecule-test
+    runs-on: ubuntu-latest
+    environment: production   # requires manual approval, configured in repo settings
+    concurrency:
+      group: deploy-production
+      cancel-in-progress: false   # queue, never run concurrently - see Question 77
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy (illustrative - not a real target in this lab)
+        run: echo "would run: ansible-playbook site.yml -i inventory/production"

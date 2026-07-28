@@ -1,0 +1,9 @@
+---
+- name: Configure the AWS fleet - security baseline first, then application role
+  hosts: tag_Environment_production
+  become: true
+  vars_files:
+    - group_vars/production/vault.yml
+  roles:
+    - security_baseline
+    - webserver

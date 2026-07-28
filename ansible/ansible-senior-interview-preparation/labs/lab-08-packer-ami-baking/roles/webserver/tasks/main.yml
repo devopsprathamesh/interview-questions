@@ -1,0 +1,10 @@
+---
+- name: Install nginx (baked into the image, not applied at boot)
+  ansible.builtin.package:
+    name: nginx
+    state: present
+
+- name: Enable nginx to start on boot (service NOT started now - image is not running)
+  ansible.builtin.service:
+    name: nginx
+    enabled: true
