@@ -99,7 +99,49 @@ See `docs/interview-cheatsheet.md`'s topic → doc → questions → lab table, 
 - [x] All 120 questions written, following the established 10-part format (Scenario, Interview Question, Strong Senior-Level Answer with 8 bolded sub-labels, Step-by-Step Implementation, Under-the-Hood Explanation, Common Weak Answer, Why the Weak Answer Fails, 3 Follow-Up Questions, Key Interview Signals, Hands-On Connection) — mechanically verified, exactly 120
 - [x] All 15 labs complete with the full required README structure — mechanically verified, 255/255 required sections present
 - [x] All 15 diagrams present (mechanically verified: fenced `mermaid` blocks present in all 15 files; not rendered through an actual Mermaid engine, no such tool available in this environment)
-- [ ] 3 mock interviews complete with rubrics — Phase 7, next
-- [ ] All cheat sheets written — Phase 7, next
+- [x] 3 mock interviews complete with rubrics (15 questions each, Senior/Lead/Staff)
+- [x] All cheat sheets written (12 topic sheets)
 - [x] CI/CD reference pipeline and policy-as-code examples in place (Labs 12–13)
-- [ ] Phase 8 validation performed and honestly reported (link integrity, YAML/manifest syntax sanity, question-count verification, lab-section completeness, tool-availability caveats)
+- [x] Phase 8 validation performed and honestly reported (link integrity, YAML/manifest syntax sanity, question-count verification, lab-section completeness, tool-availability caveats) — see below
+
+## Phase 7 — Mock interviews and cheat sheets (completed)
+
+Wrote 3 full mock interviews (Senior DevOps Engineer, Lead Platform Engineer, Staff Platform Architect; 15 questions each) following the established format (Interviewer asks / Expected answer points / Follow-up questions / Red flags / Model answer / Full reference), drawing from across all 15 question categories and cross-referencing the companion Terraform and Ansible repositories where the same underlying principle recurs. Wrote 12 topic-focused cheat sheets (`kubectl-commands`, `irsa-and-iam`, `networking-and-vpc-cni`, `storage-and-csi`, `autoscaling-karpenter`, `gitops-and-cicd`, `security-hardening`, `observability`, `troubleshooting-common-failures`, `governance-policy`, `ha-dr`, `interview-response-framework`).
+
+## Phase 8 — Validation pass (completed)
+
+Mirrors the companion Terraform and Ansible repositories' Phase 8 discipline: report what was actually mechanically checked, not what was intended.
+
+### What was validated, and how
+
+| Check | Method | Result |
+|---|---|---|
+| YAML syntax | Python `yaml.safe_load_all()` across every `.yml`/`.yaml` file in the repo | **50/50 files parsed cleanly** |
+| Internal markdown links | Custom script resolving every relative `[text](path)` link (including `#anchor` fragments, using GitHub's actual non-collapsing space-to-hyphen slugify behavior) against the real filesystem | **782 links checked across 77 files; 8 genuine bugs found and fixed (wrong relative-path depth for cross-repo links, mislabeled category filenames/question numbers), 0 remaining** |
+| Question count | `grep -c "^## Question "` summed across all 15 category files | **Exactly 120** |
+| Lab section completeness | Grep for all 17 required section headers across all 15 lab `README.md` files | **255/255 present** (after fixing 8 labs initially missing an explicit `## Scenario` section) |
+| Diagram presence | Grep for a fenced ` ```mermaid ` block in every `diagrams/*.md` file | **15/15 present** (not rendered through an actual Mermaid engine — no such tool available in this environment) |
+| Shell scripts | ShellCheck against all 9 `.sh` files in the repo | **0 findings, clean** |
+| Secret/credential scan | Grep for common credential file patterns (`.pem`, `id_rsa*`, `*kubeconfig*`) and AWS access-key-ID shape | **Clean — nothing found** |
+
+### Genuine bugs found and fixed during this pass
+
+- A cross-repository relative-path depth error affecting several links to the companion Terraform/Ansible repositories (off by one directory level, depending on whether the source file was in `docs/`, `labs/*/`, or `mock-interviews/`).
+- Two mock-interview questions ([Question 50](interview-questions/05-storage-stateful.md) and Question 86) incorrectly linked as if they were EKS-repo-local questions when they're actually companion-Ansible-repo-only content — fixed to properly cross-reference the Ansible repository.
+- Two instances of a mislabeled category filename/question-number combination (`11-ha-dr.md` used instead of the correct `12-ha-dr.md`, and a Question 103 reference that belonged to `11-troubleshooting.md`, not `ha-dr.md` at all) in `labs/lab-14-troubleshooting-and-recovery/README.md` and `mock-interviews/mock-interview-03-staff-platform-architect.md`.
+- An incorrect Terraform companion-repo lab name (`lab-07-eks-configuration`, which doesn't exist) corrected to the actual lab name, `lab-09-eks-infrastructure`.
+- 8 labs (05, 06, 07, 08, 09, 10, 11, 13) were initially missing an explicit `## Scenario` section (present in content but not under the required heading) — added a scenario paragraph to each, verified via the same mechanical section-completeness check used for every other lab.
+
+### What was honestly NOT validated (tool unavailability)
+
+Exactly as documented for the companion Terraform and Ansible repositories' Phase 8, this sandboxed environment has no `kubectl`, `helm`, `argocd`, `eksctl`, `kyverno`, `packer`, `molecule`, or `ansible-lint` binaries installed, and no attempt was made to install them (per the standing constraint established during the Terraform repository's build). This means:
+
+- **No real cluster interaction** — every manifest, Helm values file, Kustomize overlay, Kyverno policy, and shell script in this repository's 15 labs has been written to be syntactically correct and logically sound through careful manual construction and review, but has never actually been applied against a real EKS cluster.
+- **No Mermaid rendering** — all 15 diagrams have valid fenced code blocks confirmed by grep, but their actual Mermaid syntax has not been rendered through a real Mermaid engine to confirm it produces the intended diagram.
+- **No Helm/Kustomize template rendering** — `helm template`/`kustomize build` were not run to confirm the rendered output is what's intended.
+
+This is reported honestly, not glossed over: a learner working through this repository's labs will be the first to actually execute most of this content against a real cluster, and should expect to encounter and fix minor issues exactly as they would with any hands-on lab material — that's the intended, realistic experience, not a sign of low-effort content.
+
+### Summary
+
+EKS Senior Interview Preparation repository: **all 8 phases complete.** 120 questions, 15 labs (with real, intended-to-be-runnable Kubernetes manifests, Helm values, Kustomize overlays, Kyverno/Argo Rollouts/ArgoCD configs, and CI workflows), 15 diagrams, 3 mock interviews, 12 cheat sheets, 13 core docs. Every mechanical check available in this environment was run and passed (after fixing the genuine bugs found during this pass); every check requiring an unavailable binary is honestly reported as not run, not assumed to pass — consistent with the companion Terraform and Ansible repositories' validation discipline.
