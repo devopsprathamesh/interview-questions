@@ -33,6 +33,7 @@ Engineers with production EKS experience preparing for senior/staff interviews w
 - AWS CLI v2 with credentials for an account you're authorized to provision EKS clusters in (Labs 1–9 provision real AWS resources)
 - `argocd` CLI for Labs 10–11; `opa`/`conftest` and/or `kyverno` CLI for Lab 13
 - **Cost warning:** an EKS cluster's control plane alone costs ~$0.10/hour regardless of node count, plus EC2/EBS/load-balancer costs for worker nodes and add-ons. Tear down every lab's resources when done (`eksctl delete cluster` / `terraform destroy`) — see each lab's Cleanup section.
+- **Want to avoid AWS charges entirely?** [`../../floci/floci-local-aws-setup/`](../../floci/floci-local-aws-setup/README.md) covers running these labs against a local AWS emulator instead of a real account. Read [docs/eks-integration.md](../../floci/floci-local-aws-setup/docs/eks-integration.md) first — it takes seriously the emulator's claim of a real local k3s node (good for Lab 14 and most manifest/Helm/GitOps/policy labs), but is explicit about what doesn't translate: IRSA/OIDC federation, the AWS Load Balancer Controller, EBS/EFS CSI dynamic provisioning, and Karpenter's real EC2 Fleet calls.
 
 ## The Interview Response Framework
 

@@ -60,6 +60,8 @@ Labs 3, 7, and 8 create real, chargeable AWS resources (EC2 instances, AMI stora
 - Includes a mandatory cleanup section
 - Requires you to independently verify current AWS pricing before running it — **no price in this repository should be treated as current or authoritative**
 
+**Want to avoid AWS charges entirely?** [`../../floci/floci-local-aws-setup/`](../../floci/floci-local-aws-setup/README.md) covers running these labs against a local AWS emulator instead of a real account. Read [docs/ansible-integration.md](../../floci/floci-local-aws-setup/docs/ansible-integration.md) before relying on it for Labs 3/7/8 specifically — Ansible's configuration-management labs need a real SSH-reachable host, and whether the emulator's EC2 instances are actually SSH-reachable is unverified; Molecule's Docker driver remains the better-tested cost-free path for role testing.
+
 ## Interview Response Framework
 
 Every scenario-based answer in this repository — and every answer you should give live in an interview — follows this structure:
