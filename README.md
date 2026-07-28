@@ -4,7 +4,7 @@ A collection of production-grade, senior-level interview preparation repositorie
 
 There are no "what is a variable" or "what is a provider" questions anywhere in this repo. Every question, lab, and diagram assumes you already operate the tool in production and is built around the decisions and incidents that actually come up at senior/lead/staff level.
 
-All three repositories share the same ten-step **Interview Response Framework** (clarify blast radius → protect production → gather evidence → inspect actual state → root cause → safest remediation → validate → rollback plan → preventive controls → document) and cross-reference each other extensively — the same underlying principles (least privilege, staged rollout, single source of truth, "who watches the watcher," honest capability gaps) recur across all three, expressed through each tool's own idioms.
+All three interview-preparation repositories share the same ten-step **Interview Response Framework** (clarify blast radius → protect production → gather evidence → inspect actual state → root cause → safest remediation → validate → rollback plan → preventive controls → document) and cross-reference each other extensively — the same underlying principles (least privilege, staged rollout, single source of truth, "who watches the watcher," honest capability gaps) recur across all three, expressed through each tool's own idioms.
 
 ## Repositories
 
@@ -13,8 +13,9 @@ All three repositories share the same ten-step **Interview Response Framework** 
 | [`terraform/terraform-senior-interview-preparation/`](terraform/terraform-senior-interview-preparation/README.md) | Terraform, AWS infrastructure, state management, modules, EKS provisioning, policy-as-code | ✅ Complete (all 8 phases) |
 | [`ansible/ansible-senior-interview-preparation/`](ansible/ansible-senior-interview-preparation/README.md) | Ansible, configuration management, inventory/roles/Vault, AWX, Packer AMI baking | ✅ Complete (all 8 phases) |
 | [`eks/eks-senior-interview-preparation/`](eks/eks-senior-interview-preparation/README.md) | EKS/Kubernetes, networking, IRSA, Karpenter, GitOps (ArgoCD), progressive delivery, policy-as-code | ✅ Complete (all 8 phases) |
+| [`floci/floci-local-aws-setup/`](floci/floci-local-aws-setup/README.md) | Running the three repos above against a local AWS emulator instead of a real account | ✅ Setup guide (not an interview-question repo) |
 
-Every repository contains, in full: **120 senior-level interview questions** (15 categories, continuously numbered), **15 hands-on labs** culminating in an enterprise capstone, **15 Mermaid architecture/workflow diagrams**, **3 full mock interviews** (Senior / Lead / Staff-Architect, 15 questions each with scoring rubrics), a set of topic **cheat sheets**, deep-dive reference **docs**, and a `PROJECT-ROADMAP.md` documenting exactly what was built and how it was validated — including honest disclosure of what could and couldn't be mechanically tested in the environment these repos were built in (see [Validation and honesty](#validation-and-honesty) below).
+Every one of the three interview-preparation repositories (Terraform, Ansible, EKS) contains, in full: **120 senior-level interview questions** (15 categories, continuously numbered), **15 hands-on labs** culminating in an enterprise capstone, **15 Mermaid architecture/workflow diagrams**, **3 full mock interviews** (Senior / Lead / Staff-Architect, 15 questions each with scoring rubrics), a set of topic **cheat sheets**, deep-dive reference **docs**, and a `PROJECT-ROADMAP.md` documenting exactly what was built and how it was validated — including honest disclosure of what could and couldn't be mechanically tested in the environment these repos were built in (see [Validation and honesty](#validation-and-honesty) below).
 
 Each repository follows a similar shape, with tool-specific differences (Terraform uses `modules/` and `environments/`; Ansible uses `roles/` and `environments/`; EKS uses `manifests/`/`charts/` since Kubernetes has no direct equivalent of a Terraform module or Ansible role at the repo-structure level):
 
@@ -52,6 +53,12 @@ Start here: [`ansible/ansible-senior-interview-preparation/README.md`](ansible/a
 
 Start here: [`eks/eks-senior-interview-preparation/README.md`](eks/eks-senior-interview-preparation/README.md)
 
+## Floci — Local AWS Setup
+
+A setup guide, not an interview-question repo: covers installing [Floci](https://floci.io/aws/#quickstart), a local AWS emulator, and pointing the Terraform, Ansible, and EKS repos at it instead of a real AWS account. Includes an honest, lab-by-lab capability matrix — most pure API/Kubernetes-primitive labs are plausible candidates; anything depending on real IAM federation, real load balancers, or real EC2-driven autoscaling (IRSA, the AWS Load Balancer Controller, Karpenter, Packer AMI baking) is flagged as unlikely to work the same locally, not glossed over.
+
+Start here: [`floci/floci-local-aws-setup/README.md`](floci/floci-local-aws-setup/README.md)
+
 ## How to use this repo
 
 **Short on time before an interview:** go straight into the relevant tool's `docs/interview-cheatsheet.md` (or `cheatsheets/interview-response-framework.md`) and its most senior-signal `interview-questions/` files (each repo's README calls out which ones), then run the hardest mock interview cold.
@@ -66,4 +73,4 @@ Every repository's `PROJECT-ROADMAP.md` ends with a Phase 8 validation report de
 
 ## Cost warning
 
-All three repositories include labs that provision real, chargeable AWS resources (EC2, EKS, RDS, NAT gateways, ALBs, KMS keys, AMIs, EBS volumes). Every such lab lists which resources cost money, offers a cheaper alternative where one exists (e.g., local Docker/`kind` targets for labs that don't strictly need real AWS), and includes a mandatory cleanup section — but **no price quoted anywhere in this repo should be treated as current or authoritative**. Verify pricing yourself before running any lab.
+All three repositories include labs that provision real, chargeable AWS resources (EC2, EKS, RDS, NAT gateways, ALBs, KMS keys, AMIs, EBS volumes). Every such lab lists which resources cost money, offers a cheaper alternative where one exists (e.g., local Docker/`kind` targets for labs that don't strictly need real AWS, or the [`floci/floci-local-aws-setup/`](floci/floci-local-aws-setup/README.md) emulator for labs that only need the AWS API surface), and includes a mandatory cleanup section — but **no price quoted anywhere in this repo should be treated as current or authoritative**. Verify pricing yourself before running any lab.
